@@ -1,0 +1,155 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600family=Ruda:wght@400;600;700&display=swap");
+.logo img
+{
+    width: 100px;
+    height: auto;
+    border-radius: 50% ;
+}
+*
+{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.container
+{
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+header
+{
+background-color: #fff;
+padding: 1rem 0;
+box-shadow: 1px 2px 10px #000;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+body
+{
+    font-family: "poppins", sans-serif;
+    background-color: #ddd;
+}
+
+nav 
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+.logo
+{
+    display: flex;
+    align-items: center;
+}
+.logo h3
+{
+    font-size: 2rem;
+    margin-left: 0.5rem;
+    color: #2c3e50;
+    font-weight: 600;
+}
+.logo img
+{
+    
+    object-fit: cover;
+}
+
+nav ul
+{
+    display: flex;
+    list-style: none;
+}
+
+nav ul li
+{
+    margin: 0 1rem;
+}
+
+nav ul li a
+{
+    padding: 0.5rem 1rem;
+    border: 1px solid #2c3e50;
+    color: #000;
+    border-radius: 5px;
+}
+
+.search
+{
+    position: relative;
+    
+}
+
+.search input
+{
+    outline: none;
+    border: 1px solid #2e2d2d;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-family: inherit;
+    background-color: #2e2d2d;
+    color: #fff;
+    
+}
+.search ::placeholder
+{
+    color: #fff;
+    font-weight: 500;
+}
+
+.search button
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.55rem;
+    outline: none;
+    border: none;
+    background-color: #2c3e50;
+    color: #fff;
+    border-radius: 0px 5px 5px 0px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* Dito na yung Product na designs */
+
+.products_wrapper
+{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 5rem 0;
+    grid-gap: 2rem;
+}
+
+.products 
+{
+    background-color: #2e2d2d;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pr_img img 
+{
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.content
+{
+    padding: 1rem;
+}
+
+.content .title
+{
+    font-size: 1rem;
+    color: #fff;
+}

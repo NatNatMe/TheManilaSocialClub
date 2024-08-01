@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manila Social Club_Upload</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Align content at the top */
+            height: 100vh;
+            background-image: url("{{ url_for('static', filename='over.jpg') }}"); /* Dark background */;
+            color: #fff;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 100%;
+        }
+        .upload-container {
+            background-color: rgb(204, 204, 204);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 10px; /* Add margin to separate from buttons */
+        }
+        .upload-container input[type="file"] {
+            display: none;
+        }
+        .upload-container label {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 13px;
+            border: none;
+            border-radius: 5px;
+            background-color: #111922;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .upload-container label:hover {
+            background-color: #535f6d;
+        }
+        .upload-container img {
+            margin-top: 20px;
+            max-width: 100%;
+            border-radius: 10px;
+            display: none; /* Initially hide image */
+        }
+        .submit-button,
+        .back-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            border: none;
+            border-radius: 5px;
+            background-color: #d7dbde;
+            color: #030303;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+        .submit-button:hover,
+        .back-button:hover {
+            background-color: #535f6d;
+        }
+    </style>
+</head>
+<body>
+    <div class="body">
+        <h1>MANILA SOCIAL CLUB</h1>
+    </div>
+    <div class="upload-container">
+        <h2>Upload Image</h2>
+        <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ url_for('upload') }}">
+            <input type="file" id="file-input" name="file" accept="image/*" onchange="previewImage(event)" required>
+            <label for="file-input">Choose File</label>
+        </form>
+        <div id="image-preview-container">
+            <img id="preview" src="#" alt="Image Preview">
+        </div>
+    </div>
+    <div>
+        <button type="submit" form="upload-form" class="submit-button">Upload</button>
+        <a href="{{ url_for('product_page') }}" class="back-button">Back</a>
+    </div>
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('preview');
+                    const previewContainer = document.getElementById('image-preview-container');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    previewContainer.style.display = 'block'; // Show image container
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-image: url("{{ url_for('static', filename='overna.jpg') }}"); /* Dark background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: auto;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(0, 0, 0, 0.829);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        h2 {
+            font-size: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+        }
+        .box {
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            border: none;
+            border-radius: 20px;
+            background-color: #373737;
+            color: white;
+        }
+        .form h3 {
+            font-size: 1.5rem;
+            color: white;
+            width: 100%;
+            text-align: left;
+            margin: 10px 0;
+        }
+        ::placeholder {
+            color: white;
+        }
+        #submit {
+            padding: 10px;
+            width: 100%;
+            margin-top: 20px;
+            background-color: #373737;
+            color: white;
+            font-weight: bold;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+        #submit:hover {
+            cursor: pointer;
+            background-color: #750000;
+        }
+        .form a {
+            text-decoration: none;
+            color: white;
+            margin-top: 10px;
+        }
+        .form a:hover {
+            color: #fd4e4e;
+        }
+        .form video {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        footer {
+            text-align: center;
+            color: white;
+            background-color: #0f1410;
+            padding: 10px 0;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="signupForm" method="POST" action="{{ url_for('signup') }}" class="form">
+            <video autoplay loop muted>
+                <source src="{{ url_for('static', filename='videologo.mp4') }}">
+                Your browser does not support the video tag.
+            </video>
+            <h2>Sign Up</h2>
+            <input type="text" id="firstname" name="firstname" class="box" placeholder="First Name" required>
+            <input type="text" id="lastname" name="lastname" class="box" placeholder="Last Name" required>
+            <input type="text" id="username" name="username" class="box" placeholder="Username" required minlength="5">
+            <input type="email" id="email" name="email" class="box" placeholder="Email" required>
+            <input type="password" id="password" name="password" class="box" placeholder="Password" required minlength="7" pattern="(?=.*\d).{7,}">
+            <input type="submit" value="Sign Up" id="submit">
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+</body>
+</html>

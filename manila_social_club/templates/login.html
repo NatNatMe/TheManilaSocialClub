@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-image: url("{{ url_for('static', filename='over.jpg') }}"); /* Dark background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: auto;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(0, 0, 0, 0.829);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        h3 {
+            font-size: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+        }
+        .box {
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            border: none;
+            border-radius: 20px;
+            background-color: #373737;
+            color: white;
+        }
+        .form h2 {
+            font-size: 20px;
+            color: white;
+            width: 100%;
+            text-align: left;
+            margin: 10px 0;
+        }
+        ::placeholder {
+            color: white;
+        }
+        #submit {
+            padding: 10px;
+            width: 100%;
+            margin-top: 20px;
+            background-color: #373737;
+            color: white;
+            font-weight: bold;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+        #submit:hover {
+            cursor: pointer;
+            background-color: #750000;
+        }
+        .form a {
+            text-decoration: none;
+            color: white;
+            margin-top: 10px;
+        }
+        .form a:hover {
+            color: #fd4e4e;
+        }
+        .form video {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        footer {
+            text-align: center;
+            color: white;
+            background-color: #0f1410;
+            padding: 10px 0;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+        .countdown {
+            font-size: 20px;
+            color: red;
+            margin-bottom: 20px;
+        }
+        .alert-message {
+            color: white; 
+            margin-top: 10px;
+        }
+        .signup-link {
+            color: aliceblue;
+            margin: 10px;
+        }
+    </style>
+    <script>
+        function startTimer(duration) {
+            var timer = duration, minutes, seconds;
+            var countdownElement = document.getElementById('countdown');
+            console.log("Timer started with duration:", duration);
+            var interval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+    
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+    
+                countdownElement.textContent = minutes + ":" + seconds;
+    
+                console.log("Timer tick:", minutes, seconds);
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    countdownElement.textContent = "";
+                    document.getElementById('loginForm').style.display = 'block';
+                    console.log("Timer ended");
+                }
+            }, 1000);
+        }
+    
+        window.onload = function () {
+            var waitTime = {{ wait_time|default(0) }};
+            console.log("Wait time:", waitTime);
+            if (waitTime > 0) {
+                document.getElementById('loginForm').style.display = 'none';
+                startTimer(waitTime);
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div id="countdown" class="countdown"></div>
+        <form method="POST" action="{{ url_for('login') }}" class="form" id="loginForm">
+            <video autoplay loop muted>
+                <source src="{{ url_for('static', filename='videologo.mp4') }}">
+                Your browser does not support the video tag.
+            </video>
+            <h3>LOGIN</h3>
+            <h2>Username</h2>
+            <input type="text" id="username" name="username" class="box" placeholder="Enter your username">
+            <h2>Password</h2>
+            <input type="password" id="password" name="password" class="box" placeholder="Enter your password">
+            <input type="submit" value="Log In" id="submit">
+        </form>
+        {% if message %}
+        <p class="alert-message">{{ message }}</p>
+        {% endif %}
+        <p class="signup-link">If you don't have an account, <a href="{{ url_for('signup') }}">sign up here</a>.</p>
+    </div>
+    <footer>
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+</body>
+</html>

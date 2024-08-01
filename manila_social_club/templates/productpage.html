@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <script defer src="{{ url_for('static', filename='jscript.js') }}"></script>
+    <title>Product Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #656565;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .menu-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 30px;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            right: -250px;
+            background-color: #333333;
+            padding-top: 20px;
+            transition: right 0.4s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .sidebar a {
+            padding: 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #ffffff;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .container {
+            padding: 0 0px;
+            transition: margin-right 0.3s;
+        }
+        .container-product {
+            padding: 0 100px;
+            transition: margin-right 0.3s;
+        }
+        .upload-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px;
+            background-color: #ffffff;
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 2000;
+        }
+
+        .upload-button:hover {
+            background-color: #060606;
+        }
+
+        .upload-button img {
+            width: 20px;
+            height: 20px;
+        }
+        header {
+            background-color: #000000;
+            padding: 1rem 0;
+            box-shadow: 1px 2px 10px #000000;
+            margin-bottom: 30px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-left: 40px;
+        }
+
+        .logo img {
+            width: 170px;
+            height: 150px;
+            border-radius: 120px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            margin-right: 20px;
+        }
+
+        .nav-tabs a {
+            margin: 0 1rem;
+            color: #ffffff;
+            font-size: 1.2rem;
+            text-decoration: none;
+            padding-bottom: 5px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .nav-tabs a.active {
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .products_wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .products {
+            background-color: #101010;
+            border-radius: 40px;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.3s ease;
+            box-shadow: 1px 2px 15px #653434;
+
+        }
+
+        .products:hover {
+            transform: scale(1.05);
+        }
+
+        .pr_img img {
+            width: 100%;
+            border-radius: 40px;
+        }
+
+        .content {
+            padding: 1rem;
+        }
+
+        .content .title {
+            font-size: 1rem;
+            color: #ffffff;
+        }
+
+        .search {
+            position: relative;
+            margin-right: 70px;
+        }
+
+        .search input {
+            outline: none;
+            border: 1px solid #555555;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background-color: #555555;
+            color: #ffffff;
+            
+        }
+
+        .search button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0.55rem;
+            outline: none;
+            border: none;
+            background-color: #777777;
+            color: #ffffff;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+
+        .producttext {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            text-align: center;
+            margin-left: 5%;
+            font-size: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs {
+                display: none;
+            }
+
+            .search {
+                display: none;
+            }
+
+            .products_wrapper {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .sidebar {
+                width: 70%;
+                right: -70%;
+            }
+
+            .sidebar.open {
+                right: 0;
+                margin-top: 10%;
+            }
+
+            .container {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-icon" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <a href="/profile">Profile</a>
+        <a href="/about">About</a>
+        <form method="POST" action="{{ url_for('logout') }}">
+            <button type="submit" style="width: 100%; background: none; border: none; color: #fff; padding: 20px; text-align: left; cursor: pointer; font-size: 18px;">Logout</button>
+        </form>
+    </div>
+
+    <div class="container" id="main-container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='MSC1.png') }}" alt="MSCLUB Logo">
+                </div>
+                <h1 class="producttext">PRODUCTS</h1>
+                <form action="#" class="search">
+                    <input type="search" id="search-input" placeholder="Search Item">
+                    <button type="button" class="btn_search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </nav>
+        </header>
+        <div class="nav-tabs">
+            <a href="#" id="all-btn">All</a>
+            <a href="#" id="tshirt-btn">T-Shirts</a>
+            <a href="#" id="hoodie-btn">Hoodies</a>
+        </div>
+    </div>    
+        <main>
+        <div class="container-product">
+            <div class="products_wrapper">
+                <div class="products tshirt" data-name="T-shirt One">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='tshirtone.jpg') }}" alt="T-shirt One">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">T-shirt One</h3>
+                    </div>
+                </div>
+                <div class="products tshirt" data-name="T-shirt Two">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='tshirttwo.jpg') }}" alt="T-shirt Two">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">T-shirt Two</h3>
+                    </div>
+                </div>
+                <div class="products tshirt" data-name="T-shirt Three">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='tshirtthree.jpg') }}" alt="T-shirt Three">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">T-shirt Three</h3>
+                    </div>
+                </div>
+                <div class="products tshirt" data-name="T-shirt Four">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='tshirtfour.jpg') }}" alt="T-shirt Four">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">T-shirt Four</h3>
+                    </div>
+                </div>
+                <div class="products tshirt" data-name="T-shirt Five">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='tshirtfive.jpg') }}" alt="T-shirt Five">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">T-shirt Five</h3>
+                    </div>
+                </div>
+                <div class="products tshirt" data-name="T-shirt Six">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='tshirtsix.jpg') }}" alt="T-shirt Five">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">T-shirt Six</h3>
+                    </div>
+                </div>
+                <div class="products tshirt" data-name="T-shirt Seven">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='tshirtseven.jpg') }}" alt="T-shirt Five">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">T-shirt Seven</h3>
+                    </div>
+                </div>
+                <div class="products hoodie" data-name="Hoodie One">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='hoodieone.jpg') }}" alt="Hoodie One">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">Hoodie One</h3>
+                    </div>
+                </div>
+                <div class="products hoodie" data-name="Hoodie Two">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='hoodietwo.jpg') }}" alt="Hoodie Two">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">Hoodie Two</h3>
+                    </div>
+                </div>
+                <div class="products hoodie" data-name="Hoodie Three">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='hoodiethree.jpg') }}" alt="Hoodie Three">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">Hoodie Three</h3>
+                    </div>
+                </div>
+                <div class="products hoodie" data-name="Hoodie Four">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='hoodiefour.jpg') }}" alt="Hoodie Three">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">Hoodie Four</h3>
+                    </div>
+                </div>
+                <div class="products hoodie" data-name="Hoodie Five">
+                    <div class="pr_img">
+                        <img src="{{ url_for('static', filename='hoodiefive.jpg') }}" alt="Hoodie Three">
+                    </div>
+                    <div class="content">
+                        <h3 class="title">Hoodie Five</h3>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <a href="{{ url_for('upload') }}" class="upload-button">
+        <img src="{{ url_for('static', filename='up.png') }}" alt="Camera Icon">
+    </a>
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+    </script>
+</body>
+</html>

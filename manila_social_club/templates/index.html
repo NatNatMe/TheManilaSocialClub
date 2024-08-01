@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manila Social Club</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            position: relative;
+            background-image: url("{{ url_for('static', filename='G.jpg') }}"); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            height: 110vh; /* Ensures the body covers the entire viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        .logo-container {
+            position: absolute;
+            top: 45%; /* Adjust top position to center vertically */
+            left: 48.5%; /* Adjust left position to center horizontally */
+            transform: translate(-50%, -50%);
+            text-align: center; /* Center-align text within .logo-container */
+        }
+        .logo {
+            max-width: 600px;
+            height: auto;  /* Adjust size as needed */
+            margin-bottom: 20px;
+            border: 2px solid #f75701; /* Border style and color */
+        }
+        .text-above-logo {
+            font-size: 20px;
+            margin-bottom: 40px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+        .auth-buttons {
+            margin-top: 20px; /* Adjust spacing between logo and buttons */
+        }
+        .auth-buttons a, .auth-buttons button {
+            margin-left: 10px;
+            padding: 10px 50px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #090909;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+        .auth-buttons a:hover, .auth-buttons button:hover {
+            background-color: #535f6d;
+        }
+
+        /* Media Queries for Mobile */
+        @media (max-width: 768px) {
+            .text-above-logo {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+            .logo {
+                max-width: 300px;
+                height: auto;
+                margin-bottom: 10px;
+            }
+            .auth-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .auth-buttons a, .auth-buttons button {
+                margin: 10px 0;
+                padding: 10px 30px;
+                font-size: 14px;
+            }
+        }
+        @media (max-width: 480px) {
+            .text-above-logo {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+            .logo {
+                max-width: 200px;
+                height: auto;
+                margin-bottom: 5px;
+            }
+            .auth-buttons a, .auth-buttons button {
+                margin: 5px 0;
+                padding: 8px 20px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <p class="text-above-logo">AI - ENHANCED  SKIN  TONE - ADAPTIVE <br> GENERATOR  AND  CUSTOMIZATION</p>
+        <img src="{{ url_for('static', filename='MSC1.jpg') }}" alt="Logo" class="logo">
+        <div class="auth-buttons">
+            <a href="{{ url_for('signup') }}">Sign Up</a>
+            <a href="{{ url_for('login') }}">Log In</a>
+        </div>
+    </div>
+</body>
+</html>

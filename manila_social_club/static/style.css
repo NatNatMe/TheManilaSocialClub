@@ -1,0 +1,131 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+body {
+    background: lightgray;
+}
+header {
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    height: 200px; 
+    overflow: hidden;
+}
+header video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; 
+    height: 120%; 
+    object-fit: cover;
+}
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+}
+footer {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+.product
+{
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 4px;
+    
+    
+}
+.product img 
+{
+    width: 100%;
+    cursor: pointer;
+    transition: transform 0.5s ease-in-out; 
+}
+.product img:hover
+{
+    transform: scale(0.8) rotate(-15deg);
+    border-radius: 20px;
+    box-shadow: 0 32px 75px rgba(68, 77, 136, 0.2);
+}
+.img-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    margin: auto;
+    
+}
+
+.full-img {
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,0.9);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+.full-img img {
+    width: 90%;
+    max-width: 500px;
+}
+.full-img span {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+}
+.container-fluid
+{
+    width: 100%;
+    height: auto;
+    padding: 50px 0px 0px 900px;
+}
+.container
+{
+   width: 1200px;
+   margin: auto;
+   height: auto;
+   position: relative;
+   float: right;
+   
+}
+.container .search
+{
+    display: flex;
+  
+}
+.container .search input
+{
+    width: 20%;
+    padding: 10px 16px;
+    background: rgb(54, 50, 50);
+    border: 1px solid#000;
+    font-size: 15px;
+    text-transform: capitalize;
+    letter-spacing: 3px;
+    border-radius: 30px;
+    color: white;
+}
+.container .search input::placeholder
+{
+    color: white;
+    font-weight: 500;
+}
+.container .search input::type
+{
+    color: white ;
+}

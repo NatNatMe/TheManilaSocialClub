@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garment Design</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            background-color: #3e3737;
+            color: white;
+        }
+        h1, h2, h3, p {
+            text-align: center;
+        }
+        .garment-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .garment-item {
+            width: 200px;
+            height: 250px;
+            margin: 10px;
+            background-color: #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            padding: 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Garments in Recommended Colors</h1>
+    
+    <div class="garment-container">
+        {% if recommended_colors %}
+            {% for color in recommended_colors %}
+                <div class="garment-item" style="background-color: {{ color.lower() }};">
+                    Garment in {{ color }}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No recommended colors available.</p>
+        {% endif %}
+    </div>
+
+    <a href="/upload" class="button">Upload Another Image</a>
+    <a href="{{ url_for('product_page') }}" class="button">Save</a>
+
+</body>
+</html>

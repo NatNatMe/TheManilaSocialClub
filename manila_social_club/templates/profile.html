@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #070707;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 120vh;
+            margin: 0;
+        }
+        .profile-container {
+            max-width: 400px;
+            padding: 20px;
+            background: #e4e4e4;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgb(250, 112, 6);
+            text-align: center;
+            overflow:visible;
+            font-family: Georgia, 'Times New Roman', Times, serif; /* Hide overflow to contain scrolling */
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #000000;
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #5b5757;
+        }
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgb(250, 112, 6);
+        }
+        .upload-profile {
+            margin-bottom: 20px;
+        }
+        .upload-profile input[type="file"] {
+            display: none;
+        }
+        .upload-profile label {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #000000;
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .upload-profile label:hover {
+            background-color: #0b0b0b;
+        }
+        .shirt-design-container {
+            max-height: 300px; 
+            overflow-y: auto; 
+            margin-bottom: 20px;
+            background-color: #070707; /* Add some bottom margin for spacing */
+        }
+        .shirt-design {
+            background-color: #bababa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .color-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <img src="{{ session.get('profile_picture', url_for('static', filename='default-profile.jpg')) }}" alt="Profile Picture" class="profile-picture">
+        <div class="upload-profile">
+            <input type="file" id="profile-picture" accept="image/*" onchange="previewProfilePicture(event)">
+            <label for="profile-picture">Upload Profile Picture</label>
+        <p><strong>First Name:</strong> {{ profile_data.firstname }}</p>
+        <p><strong>Last Name:</strong> {{ profile_data.lastname }}</p>
+        <p><strong>Username:</strong> {{ profile_data.username }}</p>
+        <p><strong>Email:</strong> {{ profile_data.email }}</p>
+        
+        <h3>Customize Shirt</h3>
+        <div class="shirt-design-container">
+            {% for design in profile_data.shirt_designs %}
+                <div class="shirt-design">
+                    <div class="color-box" style="background-color: {{ design[0] }};"></div>
+                    <p><strong>Color:</strong> {{ design[0] }}</p>
+                    <p><strong>Design:</strong> <img src="{{ design[1] }}" width="50"></p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button class="back-button" onclick="window.location.href='/productpage'">Back to Products</button>
+    </div>
+    <script>
+        var profilePicture = sessionStorage.getItem('profile_picture');
+
+        if (profilePicture) {
+            document.querySelector('.profile-picture').src = profilePicture;
+        }
+
+        function previewProfilePicture(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function(){
+                var profilePicture = document.querySelector('.profile-picture');
+                profilePicture.src = reader.result;
+
+                // Store the image data in session storage
+                sessionStorage.setItem('profile_picture', reader.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
+</body>
+</html>
+</body>
+</html>

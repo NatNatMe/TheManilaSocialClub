@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Customization</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            background-color: #000000;
+            color: white;
+        }
+        h1 {
+            font-size: 25px;
+            text-align: center;
+        }
+        #canvasContainer {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin-bottom: 20px;
+            border: 2px solid white;
+        }
+        #tshirtCanvas {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 300px;
+            width: 300px;
+        }
+        .button {
+            padding: 10px 50px;
+            margin: 1px;
+            background-color: #e0e1e0;
+            color: rgb(0, 0, 0);
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(245, 68, 3, 0.5);
+        }
+        .button:hover {
+            background-color: #a93131;
+        }
+        .select {
+            padding: 7px 7px;
+            margin: 5px 0;
+            background-color: #6f716f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(245, 68, 3, 0.5);
+        }
+        .select:hover {
+            background-color: #a93131;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customize Your Clothing</h1>
+    <div id="canvasContainer">
+        <canvas id="tshirtCanvas" width="300" height="300"></canvas>
+    </div>
+    <input type="color" id="colorPicker" value="#FFFFFF">
+    <form id="saveForm" action="/choose_colors" method="post">
+        <input type="hidden" name="selected_colors" id="selected_colors">
+        <select name="clothingTypePicker" id="clothingTypePicker" class="select">
+            <option value="tshirt">T-Shirt</option>
+            <option value="hoodie">Hoodie</option>
+        </select>
+        <select name="sizePicker" id="sizePicker" class="select">
+            <option value="small">Small</option>
+            <option value="medium" selected>Medium</option>
+            <option value="large">Large</option>
+        </select>
+        <select name="designPicker" id="designPicker" class="select">
+            <option value="none">Select a design</option>
+            <option value="{{ url_for('static', filename='design1.jpg') }}">Design 1</option>
+            <option value="{{ url_for('static', filename='msclogo.jpg') }}">Design 2</option>
+            <option value="{{ url_for('static', filename='MSC1.png') }}">Design 3</option>
+        </select>
+        <br>
+        <a href="{{ url_for('results') }}" class="button">Back</a>
+        <button class="button" type="submit">Save</button>
+    </form>
+
+    <script>
+        var tshirtImage = new Image();
+        var hoodieImage = new Image();
+        hoodieImage.src = "/hoodie_image"; // Replace with actual hoodie image path
+        tshirtImage.src = "/tshirt_image"; // Replace with actual t-shirt image path
+        var currentClothingImage = tshirtImage;
+
+        var designImage = new Image();
+        var designPosition = { x: 100, y: 100 };
+        var isDragging = false;
+
+        var sizeMultiplier = {
+            small: 0.8,
+            medium: 1.0,
+            large: 1.2
+        };
+
+        currentClothingImage.onload = function() {
+            redrawCanvas(document.getElementById('colorPicker').value, document.getElementById('designPicker').value);
+        };
+
+        function redrawCanvas(color, designSrc) {
+            var canvas = document.getElementById('tshirtCanvas');
+            var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            var selectedSize = document.getElementById('sizePicker').value;
+            var scale = sizeMultiplier[selectedSize];
+            var imageWidth = canvas.width * scale;
+            var imageHeight = canvas.height * scale;
+            var offsetX = (canvas.width - imageWidth) / 2;
+            var offsetY = (canvas.height - imageHeight) / 2;
+
+            ctx.drawImage(currentClothingImage, offsetX, offsetY, imageWidth, imageHeight);
+
+            ctx.globalCompositeOperation = 'source-atop';
+            ctx.fillStyle = color + 'AA';
+            ctx.fillRect(offsetX, offsetY, imageWidth, imageHeight);
+            ctx.globalCompositeOperation = 'source-over';
+
+            if (designSrc !== 'none') {
+                designImage.src = designSrc;
+                designImage.onload = function() {
+                    var designSize = 80 * scale;
+                    ctx.drawImage(designImage, designPosition.x, designPosition.y, designSize, designSize);
+                };
+            }
+        }
+
+        document.getElementById('colorPicker').addEventListener('input', function(event) {
+            var selectedColor = event.target.value;
+            var selectedDesign = document.getElementById('designPicker').value;
+            redrawCanvas(selectedColor, selectedDesign);
+        });
+
+        document.getElementById('designPicker').addEventListener('change', function(event) {
+            var selectedColor = document.getElementById('colorPicker').value;
+            var selectedDesign = event.target.value;
+            redrawCanvas(selectedColor, selectedDesign);
+        });
+
+        document.getElementById('clothingTypePicker').addEventListener('change', function(event) {
+            var clothingType = event.target.value;
+            if (clothingType === 'hoodie') {
+                currentClothingImage = hoodieImage;
+            } else {
+                currentClothingImage = tshirtImage;
+            }
+            redrawCanvas(document.getElementById('colorPicker').value, document.getElementById('designPicker').value);
+        });
+
+        document.getElementById('sizePicker').addEventListener('change', function() {
+            redrawCanvas(document.getElementById('colorPicker').value, document.getElementById('designPicker').value);
+        });
+
+        var canvas = document.getElementById('tshirtCanvas');
+        canvas.addEventListener('mousedown', function(event) {
+            if (designImage.src !== 'none') {
+                var rect = canvas.getBoundingClientRect();
+                var x = event.clientX - rect.left;
+                var y = event.clientY - rect.top;
+                if (x > designPosition.x && x < designPosition.x + 80 && y > designPosition.y && y < designPosition.y + 80) {
+                    isDragging = true;
+                }
+            }
+        });
+
+        canvas.addEventListener('mousemove', function(event) {
+            if (isDragging) {
+                var rect = canvas.getBoundingClientRect();
+                designPosition.x = event.clientX - rect.left - 40;
+                designPosition.y = event.clientY - rect.top - 40;
+                redrawCanvas(document.getElementById('colorPicker').value, document.getElementById('designPicker').value);
+            }
+        });
+
+        canvas.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
+
+        document.getElementById('saveForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var selectedColor = document.getElementById('colorPicker').value;
+            document.getElementById('selected_colors').value = selectedColor;
+            this.submit();
+        });
+    </script>
+</body>
+</html>

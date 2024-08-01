@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Us</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            color: white;
+            font-family:Georgia, 'Times New Roman', Times, serif
+        }
+        body {
+            background-color: #272727;
+        }
+        .heading {
+            width: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            margin: 20px auto;
+        }
+        .heading h1 {
+            font-size: 50px;
+            color: white;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        .heading h1::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            display: block;
+            margin: 0 auto;
+            background-color: #00afaf;
+        }
+        .heading p {
+            font-size: 18px;
+            color: white;
+            margin-bottom: 35px;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+        .about {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .aboutimage {
+            flex: 1;
+            margin-right: 40px;
+            overflow: hidden;
+        }
+        .aboutimage img {
+         width: 100%;
+         height: auto;
+         display: block;
+         transition: 0.5s ease;
+        }
+        .aboutimage:hover img {
+            transform: scale(1.2);
+        }
+        .aboutcontent {
+            flex: 1;
+        }
+        .aboutcontent h2 {
+            font-size: 23px;
+            margin-bottom: 25px;
+            color: white;
+        }
+        .aboutcontent p {
+            font-size: 18px;
+            line-height: 1.5;
+            color: white;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+        .aboutcontent .readmore {
+            background-color: #040404;
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            font-size: 19px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 15px;
+            transition: 0.3 ease;
+        }
+        
+        .aboutcontent .readmore:hover {
+            background-color: 	#D8D8D8;
+        }
+        @media screen and (max-width: 768px){
+            .heading {
+                padding: 0px 20px;
+            }
+            .heading h1 {
+                font-size: 36px;
+            }
+            .heading p {
+                font-size: 17px;
+                margin-bottom: 0px;
+            }
+            .container {
+                padding: 0px;
+            }
+            .about {
+                padding: 20px;
+                flex-direction: column;
+            }
+            .aboutimage {
+                margin-right: 0px;
+                margin-bottom: 20px;
+            }
+            .aboutcontent p {
+                padding: 0px;
+                font-size: 16px;
+            }
+            .aboutcontent .readmore {
+                font-size: 16px;
+            }
+        }
+        .readmorebutton {
+            background-color: #040404;
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            font-size: 19px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 15px;
+            transition: 0.3 ease;
+        }
+        .readmorebutton:hover {
+            background-color: #D8D8D8;
+        }
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>About Us</h1>
+    </div>
+    <div class="container">
+        <section class="about">
+            <div class="aboutimage">
+                <img src="{{ url_for('static', filename='MSC1.png') }}" alt="mslogo">
+            </div>
+            <div class="aboutcontent">
+                <h2>Manila Social Club</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas vitae scel<span id="dots">...</span><span id="more">erisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta.</span></p>
+                <button class="readmorebutton" onclick="myFunction()" id="myBtn">Read more</button>
+                <button class="readmorebutton" onclick="window.location.href='/productpage'">Back to Products</button>
+
+
+                <script>
+                    function myFunction() {
+                      var dots = document.getElementById("dots");
+                      var moreText = document.getElementById("more");
+                      var btnText = document.getElementById("myBtn");
+                    
+                      if (dots.style.display === "none") {
+                        dots.style.display = "inline";
+                        btnText.innerHTML = "Read more"; 
+                        moreText.style.display = "none";
+                      } else {
+                        dots.style.display = "none";
+                        btnText.innerHTML = "Read less"; 
+                        moreText.style.display = "inline";
+                      }
+                    }
+                    </script>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
