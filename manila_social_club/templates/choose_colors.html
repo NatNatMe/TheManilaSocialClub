@@ -13,18 +13,41 @@
             align-items: center;
             justify-content: flex-start;
             height: 100vh;
-            background-color: #000000;
+            background-image: url("{{ url_for('static', filename='style.jpg') }}"); /* Dark background */;
             color: white;
         }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            background-color: #000000d7;
+            padding: 40px;
+            margin-top: 11%;
+            width: 1200px;
+            height: 450px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgb(235, 233, 233);
+            position: fixed;
+            box-shadow: 0 0 50px rgb(255, 255, 255);
+        }
         h1 {
-            font-size: 25px;
+            font-size: 40px;
             text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #242323;
+            border-radius: 20px;
+        }
+        h2 {
+            font-size: 18px;
+            text-align: center;
+            margin-top: 170px;
         }
         #canvasContainer {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 450px;
+            height: 450px;
             margin-bottom: 20px;
+            background-color: #070707;
             border: 2px solid white;
         }
         #tshirtCanvas {
@@ -32,8 +55,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            height: 300px;
-            width: 300px;
+            height: 350px;
+            width: 350px;
         }
         .button {
             padding: 10px 50px;
@@ -50,6 +73,7 @@
             font-family: Georgia, 'Times New Roman', Times, serif;
             font-weight: bold;
             box-shadow: 0 0 10px rgba(245, 68, 3, 0.5);
+            margin-top: 20px;
         }
         .button:hover {
             background-color: #a93131;
@@ -72,36 +96,82 @@
         .select:hover {
             background-color: #a93131;
         }
+        .colorpic {
+            margin-top: 200px;
+            margin-left: -235px;
+            width: 100px;
+            height: 50px;
+        }
+        .right-content {
+            text-align: center;
+            background-color: #555353d3;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            width: 300px;
+            margin-top: 50px;
+            margin-right: 40px;
+        }
+        .content {
+            text-align: center;
+            background-color: #0f0f0fd3;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            width: 300px;
+            margin-top: 20px;
+            margin-right: 40px;
+            color: #e0e1e0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
     </style>
 </head>
 <body>
     <h1>Customize Your Clothing</h1>
-    <div id="canvasContainer">
-        <canvas id="tshirtCanvas" width="300" height="300"></canvas>
-    </div>
-    <input type="color" id="colorPicker" value="#FFFFFF">
-    <form id="saveForm" action="/choose_colors" method="post">
-        <input type="hidden" name="selected_colors" id="selected_colors">
-        <select name="clothingTypePicker" id="clothingTypePicker" class="select">
-            <option value="tshirt">T-Shirt</option>
-            <option value="hoodie">Hoodie</option>
-        </select>
-        <select name="sizePicker" id="sizePicker" class="select">
-            <option value="small">Small</option>
-            <option value="medium" selected>Medium</option>
-            <option value="large">Large</option>
-        </select>
-        <select name="designPicker" id="designPicker" class="select">
-            <option value="none">Select a design</option>
-            <option value="{{ url_for('static', filename='design1.jpg') }}">Design 1</option>
-            <option value="{{ url_for('static', filename='msclogo.jpg') }}">Design 2</option>
-            <option value="{{ url_for('static', filename='MSC1.png') }}">Design 3</option>
-        </select>
-        <br>
-        <a href="{{ url_for('results') }}" class="button">Back</a>
-        <button class="button" type="submit">Save</button>
-    </form>
+    <div class="container">
+        <div id="canvasContainer">
+            <canvas id="tshirtCanvas" width="300" height="300"></canvas>
+        </div>
+        <h2> Pick Color</h2>
+        <input class="colorpic" type="color" id="colorPicker" value="#FFFFFF">
+        <form id="saveForm" action="/choose_colors" method="post">
+            <input type="hidden" name="selected_colors" id="selected_colors">
+        <div class="right-content">
+            <select name="clothingTypePicker" id="clothingTypePicker" class="content">
+                <option value="tshirt">T-Shirt</option>
+                <option value="hoodie">Hoodie</option>
+            </select>
+            <br>
+            <select name="sizePicker" id="sizePicker" class="content">
+                <option value="small">Small</option>
+                <option value="medium" selected>Medium</option>
+                <option value="large">Large</option>
+            </select>
+            <br>
+            <select name="designPicker" id="designPicker" class="content">
+                <option value="none">Select a design</option>
+                <option value="{{ url_for('static', filename='design1.jpg') }}">Design 1</option>
+                <option value="{{ url_for('static', filename='msclogo.jpg') }}">Design 2</option>
+                <option value="{{ url_for('static', filename='MSC1.png') }}">Design 3</option>
+                <option value="{{ url_for('static', filename='skate.png') }}">Design 4</option>
+                <option value="{{ url_for('static', filename='zone.png') }}">Design 5</option>
+                <option value="{{ url_for('static', filename='flip.png') }}">Design 6</option>
+                <option value="{{ url_for('static', filename='bake.png') }}">Design 7</option>
+                <option value="{{ url_for('static', filename='ghet.png') }}">Design 8</option>
+                <option value="{{ url_for('static', filename='gameover.png') }}">Design 9</option>
+                <option value="{{ url_for('static', filename='nownever.png') }}">Design 10</option>
+                <option value="{{ url_for('static', filename='lifesaks.png') }}">Design 11</option>
+                <option value="{{ url_for('static', filename='MANila.png') }}">Design 12</option>
+                <option value="{{ url_for('static', filename='ybreak.png') }}">Design 13</option>
+                <option value="{{ url_for('static', filename='kool.png') }}">Design 14</option>
 
+            </select>
+            <br>
+            <a href="{{ url_for('results') }}" class="button">Back</a>
+            <button class="button" type="submit">Save</button>
+        </form>
+        </div>
+    </div>
     <script>
         var tshirtImage = new Image();
         var hoodieImage = new Image();
@@ -114,9 +184,9 @@
         var isDragging = false;
 
         var sizeMultiplier = {
-            small: 0.8,
-            medium: 1.0,
-            large: 1.2
+            small: 0.7,
+            medium: 0.9,
+            large: 1.1
         };
 
         currentClothingImage.onload = function() {
@@ -145,7 +215,7 @@
             if (designSrc !== 'none') {
                 designImage.src = designSrc;
                 designImage.onload = function() {
-                    var designSize = 80 * scale;
+                    var designSize = 100 * scale;
                     ctx.drawImage(designImage, designPosition.x, designPosition.y, designSize, designSize);
                 };
             }

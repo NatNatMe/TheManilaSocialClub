@@ -9,28 +9,55 @@
             margin: 0;
             font-family: 'Arial', sans-serif;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             height: 100vh;
-            background: linear-gradient(135deg, #1c1c1c, #333333);
+            background-image: url("{{ url_for('static', filename='black.jpg') }}"); /* Dark background */;
             color: #f0f0f0;
             padding: 20px;
         }
-        h1 {
-            text-align: center;
-            font-family: 'Georgia', 'Times New Roman', Times, serif;
-            font-size: 30px;
-            margin-bottom: 20px;
-        }
-        h2, h3, p {
-            text-align: center;
-            font-family: 'Georgia', 'Times New Roman', Times, serif;
-            font-size: 18px;
+        h1, h2, h3, h4 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
             margin: 10px 0;
+            text-align: center;
+        }
+        h1 {
+            font-size: 36px;
+        }
+        h2 {
+            font-size: 24px;
         }
         h3 {
-            font-size: 26px;
+            font-size: 18px;
+        }
+        h4 {
+            font-size: 18px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            background-color: #1b1a1a90;
+            padding: 40px;
+            margin-top: 11%;
+            width: 1100px;
+            height: 450px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgb(235, 233, 233);
+            position: fixed;
+            box-shadow: 0 0 50px rgb(255, 255, 255);
+        }
+        .left-content, .right-content {
+            padding: 20px;
+            width: 50%;
+        }
+        .left-content {
+            text-align: center;
+        }
+        .right-content {
+            text-align: center;
+            background-color: #555353d3;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
         .color-container {
             display: flex;
@@ -39,38 +66,37 @@
             margin-top: 20px;
         }
         .color-box {
-            width: 200px;
-            height: 50px;
+            width: 100px;
+            height: 100px;
             margin: 10px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #1c1c1c;
-            color: #fffdfd;
+            font-size: 16px;
+            color: #fff;
             font-family: Georgia, 'Times New Roman', Times, serif;
-            box-shadow: 0 0 10px rgba(250, 112, 6, 0.6);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.693);
             transition: transform 0.3s ease;
         }
         .color-box:hover {
             transform: scale(1.1);
         }
-       .skin {
-            width: 150px;
+        .skin {
+            width: 200px;
             height: 50px;
-            margin: 10px;
             border-radius: 10px;
+            background-color: #1c1c1c;
+            color: #fff;
+            font-family: Georgia, 'Times New Roman', Times, serif;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #1c1c1c;
-            color: #fffdfd;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            box-shadow: 0 0 10px rgba(250, 112, 6, 0.6);
-       }
-       .skin:hover {
-        transition: transform 0.3s ease;
-       }
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgb(255, 255, 255);
+            font-size: 16px;
+            text-align: center;
+        }
         .button {
             padding: 10px 20px;
             margin: 5px;
@@ -85,17 +111,30 @@
             font-size: 16px;
             font-family: 'Georgia', 'Times New Roman', Times, serif;
             transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 10px;
         }
         .button:hover {
             background-color: #666;
             transform: scale(1.05);
         }
         .image-preview {
-            max-width: 100%;
-            max-height: 200px;
+            max-width: 350px;
+            max-height: 350px;
             border-radius: 10px;
             margin: 20px 0;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 600px;
+            position: fixed;
+        }
+        .logo img {
+            width: 900px;
+            height: 500px;
+            border-radius: 120px;
         }
         @media (max-width: 600px) {
             .color-box {
@@ -106,37 +145,52 @@
                 width: 100%;
                 padding: 10px;
             }
+            .container {
+                flex-direction: column;
+                width: 100%;
+            }
+            .left-content, .right-content {
+                width: 100%;
+                margin: 0;
+            }
+            .right-content {
+                margin-top: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Skin Tone Detection Results</h1>
-    
-    {% if filename %}
-    <h2>Uploaded Image:</h2>
-    <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="Uploaded Image" class="image-preview">
-    {% endif %}
-    
-    {% if skin_tone %}
-    <h3>Detected Skin Tone:</h3>
-    <div class="skin">
-         {{ skin_tone }}
-    {% endif %}
+    <div class="logo">
+        <img src="{{ url_for('static', filename='MSC1.png') }}" alt="MSCLUB Logo">
     </div>
-    
-    {% if recommended_colors %}
-    <h3>Recommended Colors:</h3>
-    <div class="color-container">
-        {% for color in recommended_colors %}
-        <div class="color-box">
-            {{ color }}
+    <div class="container">
+        <div class="left-content">
+            {% if filename %}
+            <h2>Uploaded Image:</h2>
+            <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="Uploaded Image" class="image-preview">
+            {% endif %}
+            {% if skin_tone %}
         </div>
-        {% endfor %}
+        <div class="right-content">
+            <h3>Detected Skin Tone:</h3>
+            <div class="skin">
+                {{ skin_tone }}
+            </div>
+            {% endif %}
+            {% if recommended_colors %}
+            <h4>Recommended Colors:</h4>
+            <div class="color-container">
+                {% for color in recommended_colors %}
+                <div class="color-box" style="background-color: {{ color }};">
+                    {{ color }}
+                </div>
+                {% endfor %}
+                <a class="button" href="{{ url_for('upload') }}">Upload Another Image</a>
+            </div>
+            {% endif %}
+            <a class="button" href="{{ url_for('productpage') }}">Satisfied</a>
+            <a class="button" href="/choose_colors">Choose My Own Colors</a>
+        </div>
     </div>
-    <a class="button" href="{{ url_for('product_page') }}">Satisfied</a>
-    <a class="button" href="/choose_colors">Choose My Own Colors</a>
-    <a class="button" href="{{ url_for('upload') }}">Upload Another Image</a>
-    {% endif %}
-    
 </body>
 </html>

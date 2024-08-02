@@ -12,21 +12,39 @@
             align-items: center;
             justify-content: flex-start; /* Align content at the top */
             height: 100vh;
-            background-image: url("{{ url_for('static', filename='over.jpg') }}"); /* Dark background */;
+            background-image: url("{{ url_for('static', filename='lop.jpg') }}");
+            background-size: 1960px 1060px; /* Set the size of the background image */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            background-position: center;
             color: #fff;
             font-family: Georgia, 'Times New Roman', Times, serif;
             font-size: 100%;
         }
+        h1 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 20px;
+            margin-top: -60px;
+            margin-left: -700px;
+        }
+        h3 {
+            font-family:Georgia;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-left: -660px;
+
+        }
         .upload-container {
-            background-color: rgb(204, 204, 204);
+            background-color: rgba(0, 0, 0, 0.897);
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+            box-shadow: 0 0 10px rgba(247, 247, 247, 0.1);
             text-align: center;
             font-family: Georgia, 'Times New Roman', Times, serif;
             width: 80%;
-            max-width: 300px;
-            margin-bottom: 10px; /* Add margin to separate from buttons */
+            max-width: 250px;
+            margin-top: -200px;
+            margin-bottom: 20px;
+            margin-right: -600px;
         }
         .upload-container input[type="file"] {
             display: none;
@@ -51,6 +69,12 @@
             border-radius: 10px;
             display: none; /* Initially hide image */
         }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center; /* Center the buttons */
+            margin-right: -600px; /* Match margin with the upload container */
+        }
         .submit-button,
         .back-button {
             padding: 10px 20px;
@@ -58,8 +82,8 @@
             font-family: Georgia, 'Times New Roman', Times, serif;
             border: none;
             border-radius: 5px;
-            background-color: #d7dbde;
-            color: #030303;
+            background-color: #000000;
+            color: #ffffff;
             cursor: pointer;
             text-decoration: none;
             transition: background-color 0.3s ease;
@@ -69,14 +93,28 @@
         .back-button:hover {
             background-color: #535f6d;
         }
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-left: -650px;
+            margin-top: -50px;
+        }
+
+        .logo img {
+            width: 300px;
+            height: 300px;
+            border-radius: 120px;
+        }
     </style>
 </head>
 <body>
-    <div class="body">
-        <h1>MANILA SOCIAL CLUB</h1>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='MSC1.png') }}" alt="MSCLUB Logo">
     </div>
+    <h1>UNSURE WHICH COLOR<br>LOOKS BEST ON YOU?</h1>
+    <h3>Upload your selfie to find out which<br>color suit you best</h3>
     <div class="upload-container">
-        <h2>Upload Image</h2>
+        <h2>UPLOAD SELFIE</h2>
         <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ url_for('upload') }}">
             <input type="file" id="file-input" name="file" accept="image/*" onchange="previewImage(event)" required>
             <label for="file-input">Choose File</label>
@@ -85,9 +123,9 @@
             <img id="preview" src="#" alt="Image Preview">
         </div>
     </div>
-    <div>
+    <div class="button-container">
         <button type="submit" form="upload-form" class="submit-button">Upload</button>
-        <a href="{{ url_for('product_page') }}" class="back-button">Back</a>
+        <a href="{{ url_for('productpage') }}" class="back-button">Back</a>
     </div>
     <script>
         function previewImage(event) {
