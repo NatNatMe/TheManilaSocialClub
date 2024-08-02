@@ -1,0 +1,500 @@
+skinTone,color,colorname
+Fair,#FF5733,Persimmon
+Fair,#345d9e,Royal Blue
+Fair,#5381c9,Cornflower Blue
+Fair,#008080,Teal
+Fair,#000080,Navy Blue
+Fair,#E6E6FA,Lavender
+Fair,#228B22,Forest Green
+Fair,#8B0000,Dark Red
+Fair,#ADD8E6,Light Blue
+Fair,#C8A2C8,Light Lilac
+Fair,#98FB98,Pale Green
+Fair,#000080,Navy Blue
+Fair,#E0B0FF,Mauve
+Fair,#7B9BB7,Sky Blue
+Fair,#FFDAB9,Peach Puff
+Fair,#F5F5DC,Beige
+Fair,#F5F5DC,Beige
+Fair,#8E4585,Mulberry
+Fair,#F0FFF0,Honeydew
+Fair,#40E0D0,Turquoise
+Fair,#CD5C5C,Indian Red
+Fair,#6A5ACD,Slate Blue
+Fair,#FF7F50,Coral
+Fair,#50C878,Emerald
+Fair,#660066,Purple
+Fair,#FFDAB9,Peach Puff
+Fair,#FFFFF0,Ivory
+Fair,#FFE5B4,Moccasin
+Fair,#FFA07A,Light Salmon
+Fair,#CC5500,Burnt Orange
+Fair,#FFDAB9,Peach Puff
+Fair,#FFFFCC,Light Yellow
+Fair,#F7E7CE,Soft Peach
+Fair,#36454F,Charcoal
+Fair,#E97451,Copper
+Fair,#FDD5A4,Peach
+Fair,#F4DCC3,Cream
+Fair,#FFEF99,Light Yellow
+Fair,#D0AE94,Pale Bronze
+Fair,#9FE2BF,Pale Sea Green
+Fair,#D3AF95,Light Copper
+Fair,#0047AB,Cobalt Blue
+Fair,#800020,Maroon
+Fair,#FFCCB2,Peach
+Fair,#FEA373,Light Coral
+Fair,#ADDFAD,Pale Green
+Fair,#B8B898,Olive Green
+Fair,#C08081,Rosy Brown
+Fair,#C4C3D0,Lavender Gray
+Fair,#FFFDD0,Cream
+Fair,#F5F5DC,Beige
+Fair,#FFF9C4,Light Lemon Yellow
+Fair,#FFE4E1,Misty Rose
+Fair,#FFEECC,Light Peach
+Fair,#E5AA70,Desert Sand
+Fair,#F3E5AB,Pale Goldenrod
+Fair,#FFC77F,Light Apricot
+Fair,#EADFD4,Peach Cream
+Fair,#F8E8CF,Pale Peach
+Fair,#FFF3CC,Light Cream
+Fair,#FFF3CF,Pale Cream
+Fair,#FFF1B2,Light Butter
+Fair,#36454F,Charcoal
+Fair,#E9B989,Light Brown
+Fair,#FFD8D3,Light Pink
+Fair,#D8B48C,Tan
+Fair,#FFFAF0,Floral White
+Fair,#FFE4C4,Bisque
+Fair,#FFD3A8,Light Apricot
+Fair,#FFDE8A,Goldenrod Yellow
+Fair,#CEA67F,Pale Brown
+Fair,#FFD2B2,Peach Puff
+Fair,#FFEDCA,Light Peach
+Fair,#F7DEB9,Light Sand
+Fair,#FFEFc1,Light Butter
+Fair,#FFF091,Light Yellow
+Fair,#E8C8A0,Light Tan
+Fair,#FFE4AE,Light Apricot
+Fair,#D2B48C,Tan
+Fair,#FFE5B4,Moccasin
+Fair,#FFEFCC,Light Peach
+Fair,#FFEBBE,Light Apricot
+Fair,#F6E5C9,Light Sand
+Fair,#FFF5E6,Light Cream
+Fair,#FAD6A5,Light Peach
+Fair,#F0DCB4,Light Tan
+Fair,#FFE4CC,Peach
+Fair,#B2FFCC,Pale Mint
+Fair,#6B8E23,Olive Drab
+Fair,#708090,Slate Gray
+Fair,#FF00FF,Magenta
+Fair,#33A1C9,Vivid Sky Blue
+Fair,#228B22,Forest Green
+Fair,#4169E1,Royal Blue
+Fair,#CC5500,Burnt Orange
+Fair,#8E4585,Mulberry
+Fair,#808000,Olive
+Fair,#FF7F50,Coral
+Fair,#87CEEB,Sky Blue
+Fair,#ADD8E6,Light Blue
+Fair,#36454F,Charcoal
+Fair,#CD5C5C,Indian Red
+Fair,#FFDB58,Golden Yellow
+Fair,#FFCB90,Peach
+Fair,#FFC0CB,Pink
+Fair,#E6E6FA,Lavender
+Fair,#FFDAB9,Peach Puff
+Fair,#F5DEB3,Wheat
+Fair,#000080,Navy Blue
+Fair,#FFF8F0,Floral White
+Fair,#D3D3D3,Light Gray
+Fair,#000000,Black
+Fair,#800020,Maroon
+Fair,#4169E1,Royal Blue
+Fair,#DC143C,Crimson
+Fair,#800080,Purple
+Fair,#FFD700,Gold
+Fair,#B87333,Copper
+Fair,#33A1C9,Vivid Sky Blue
+Fair,#FFDAB9,Peach Puff
+Fair,#F08080,Light Coral
+Fair,#CB4154,Red-Violet
+Fair,#5F9EA0,Cadet Blue
+Fair,#7851A9,Purple
+Fair,#9932CC,Dark Orchid
+Fair,#2F4F4F,Dark Slate Gray
+Fair,#DC143C,Crimson
+Fair,#4682B4,Steel Blue
+Fair,#556B2F,Dark Olive Green
+Fair,#6A5ACD,Slate Blue
+Fair,#4B0082,Indigo
+Fair,#191970,Midnight Blue
+Fair,#CCCCFF,Light Periwinkle
+Fair,#C8C8FF,Lavender Blue
+Fair,#F0F0FF,Light Lavender
+Fair,#FFFF66,Light Yellow
+Fair,#004953,Deep Teal
+Fair,#E9967A,Dark Salmon
+Fair,#B7410E,Rust
+Fair,#F4EEE0,Light Cream
+Fair,#FDF5E6,Old Lace
+Fair,#F4EEE0,Light Cream
+Fair,#E9D5BD,Light Tan
+Fair,#FFEF80,Goldenrod Yellow
+Fair,#F8B878,Light Apricot
+Fair,#FFDBB9,Peach Puff
+Fair,#613D4A,Aubergin
+Fair,#800020,Maroon
+Fair,#FFCCB2,Peach
+Medium,#008080,Teal
+Medium,#8E4585,Mulberry
+Medium,#FF7F50,Coral
+Medium,#808000,Olive
+Medium,#4169E1,Royal Blue
+Medium,#CC5500,Burnt Orange
+Medium,#6A0D91,Deep Violet
+Medium,#2E8B57,Sea Green
+Medium,#36454F,Charcoal
+Medium,#5A3A29,Dark Brown
+Medium,#D5A6A0,Light Coral
+Medium,#40E0D0,Turquoise
+Medium,#002F4C,Dark Blue-Gray
+Medium,#50C878,Emerald
+Medium,#FF7F50,Coral
+Medium,#708090,Slate Gray
+Medium,#DC143C,Crimson
+Medium,#6B8E23,Olive Drab
+Medium,#7851A9,Purple
+Medium,#E0FFFF,Light Cyan
+Medium,#CC5500,Burnt Orange
+Medium,#008080,Teal
+Medium,#000080,Navy Blue
+Medium,#228B22,Forest Green
+Medium,#800020,Maroon
+Medium,#36454F,Charcoal
+Medium,#6A5ACD,Slatte Blue
+Medium,#D5A6A0,Light Coral
+Medium,#E97451,Copper
+Medium,#808000,Olive
+Medium,#8E4585,Mulberry
+Medium,#008080,Teal
+Medium,#003366,Dark Midnight Blue
+Medium,#50C878,Emerald
+Medium,#8E4585,Mulberry
+Medium,#708090,Slate Gray
+Medium,#CC5500,Burnt Orange
+Medium,#7851A9,Purple
+Medium,#6B8E23,Olive Drab
+Medium,#36454F,Charcoal
+Medium,#FF7F50,Coral
+Medium,#008080,Teal
+Medium,#000080,Forest Green
+Medium,#228B22,Maroon
+Medium,#800020,Charcoal
+Medium,#36454F,Slate Blue
+Medium,#6A5ACD,Light Coral
+Medium,#D5A6A0,Copper
+Medium,#E97451,Olive
+Medium,#808000,Olive
+Medium,#B87333,Copper
+Medium,#008080,Teal
+Medium,#000080,Navy Blue
+Medium,#50C878,Emerald
+Medium,#8E4585,Mulberry
+Medium,#36454F,Charcoal
+Medium,#6A5ACD,Slate Blue
+Medium,#D5A6A0,Light Coral
+Medium,#CC5500,Burnt Orange
+Medium,#808000,Olive
+Medium,#B87333,Copper
+Medium,#008080,Teal
+Medium,#000080,Navy Blue
+Medium,#50C878,Emerald
+Medium,#8E4585,Mulberry
+Medium,#36454F,Charcoal
+Medium,#6A5ACD,Slate Blue
+Medium,#D5A6A0,Light Coral
+Medium,#CC5500,Burnt Orange
+Medium,#808000,Olive
+Medium,#B87333,Copper
+Medium,#008080,Teal
+Medium,#000080,Navy Blue
+Medium,#50C878,Emerald
+Medium,#8E4585,Mulberry
+Medium,#36454F,Charcoal
+Medium,#6A5ACD,Slate Blue
+Medium,#D5A6A0,Light Coral
+Medium,#CC5500,Burnt Orange
+Medium,#808000,Olive
+Medium,#B87333,Copper
+Medium,#008080,Teal
+Medium,#B87333,Copper
+Medium,#000080,Navy Blue
+Medium,#50C878,Emerald
+Medium,#8E4585,Mulberry
+Medium,#36454F,Charcoal
+Medium,#6A5ACD,Slate Blue
+Medium,#D5A6A0,Light Coral
+Medium,#CC5500, Burnt Orange
+Medium,#808000,Olive
+Medium,#800020,Maroon
+Medium,#2E8B57,Sea Green
+Medium,#7851A9,Purple
+Medium,#7B68EE,Medium Slate Blue
+Medium,#800000,Maroon
+Medium,#0047AB,Cobalt Blue
+Medium,#228B22,Forest Green
+Medium,#008C95,Dark Cyan
+Medium,#F08080,Light Coral
+Medium,#0F52BA,Sapphire Blue
+Medium,#0F52BA,Sapphire Blue
+Medium,#008C95,Dark Cyan
+Medium,#228B22,Forest Green
+Medium,#800000,Maroon
+Medium,#7B68EE,Medium Slate Blue
+Medium,#2E8B57,Sea Green
+Medium,#B87333,Copper
+Medium,#D5A6A0,Pastel Pink
+Medium,#808000,Olive
+Medium,#8E4585,Plum
+Medium,#98FF98,Mint Green
+Medium,#6D1F3C,Raisin Black
+Medium,#E6E6FA,Lavender
+Medium,#008B8D,Teal Blue
+Medium,#C73C29,Brick Red
+Medium,#D3D3D3,Light Gray
+Medium,#FFDB58,Mustard Yellow
+Medium,#D85A7A,Blush
+Medium,#0047AB,Cobalt Blue
+Medium,#FFDAB9,Peach Puff
+Medium,#008080,Teal
+Medium,#50C878,Emerald Green
+Medium,#36454F,Charcoal
+Medium,#D5A6A0,Pastel Pink
+Medium,#808000,Olive
+Medium,#B87333,Copper
+Medium,#2E8B57,Sea Green
+Medium,#7B68EE,Medium Slate Blue
+Medium,#0047AB,Cobalt Blue
+Medium,#008C95,Dark Cyan
+Medium,#C4C3D0,Lavender Gray
+Medium,#FA8072,Salmon
+Medium,#6B8E23,Olive Drab
+Medium,#D50032,Carmine
+Medium,#708090,Slate Gray
+Medium,#F5DEB3,Wheat
+Medium,#00CED1,Dark Turquoise
+Medium,#F88379,Coral Pink
+Medium,#FFBF00,Amber
+Medium,#36454F,Charcoal
+Medium,#F6D7B0,Pale Gold
+Medium,#FD5E53,Sunset Orange
+Medium,#6D1F3C,Raisin Black
+Medium,#D8BFD8,Thistle
+Medium,#E0FFFF,Light Cyan
+Medium,#F5DEB3,Wheat
+Medium,#6D0F1C,Garnet
+Medium,#F4A6A6,Pale Red
+Medium,#228B22,Forest Green
+Medium,#D3D0FF,Light Periwinkle
+Medium,#003366,Dark Blue
+Medium,#50C878,Emerald Green
+Medium,#580F41,Purple Plum
+Medium,#FF6F61,Bittersweet
+Medium,#4682B4,Steel Blue
+Medium,#00CED1,Dark Turquoise
+Medium,#F5DEB3,Wheat
+Medium,#2E8B57,Sea Green
+Medium,#C4C3D0,Lavender Gray
+Medium,#FD5E53,Sunset Orange
+Medium,#008080,Teal
+Medium,#0F52BA,Sapphire Blue
+Medium,#E30B5C,Raspberry
+Medium,#E6E6FA,Lavender
+Medium,#36454F,Charcoal
+Medium,#F88379,Coral Pink
+Medium,#DAA520,Goldenrod
+Medium,#FD5E53,Sunset Orange
+Medium,#D4E6E5,Gainsboro
+Medium,#CCCCFF,Periwinkle
+Medium,#7FFFD4,Aquamarine
+Medium,#8E4585,Plum
+Medium,#D5A6A0,Rose Quartz
+Medium,#36454F,Charcoal
+Medium,#CC5500,Burnt Orange
+Medium,#B0E0E6,Powder Blue
+Medium,#808000,Olive
+Medium,#D8BFD8,Thistle
+Medium,#FD5E53,Sunset Orange
+Medium,#D85A7A,Blush
+Medium,#580F41,Purple Plum
+Medium,#008080,Teal
+Medium,#800020,Burgundy
+Medium,#FF7F50,Coral
+Medium,#B76E79,Rose Gold
+Medium,#98FF98,Mint Green
+Medium,#B87333,Copper
+Medium,#FD5E53,Sunset Orange
+Medium,#4682B4,Steel Blue
+Medium,#FFDA03,Daffodil Yellow
+Medium,#808000,Olive
+Medium,#D85A7A,Blush
+Medium,#9FE2BF,Pale Green
+Medium,#DAA520,Goldenrod
+Medium,#FD5E53,Sunset Orange
+Medium,#B76E79,Rose Gold
+Medium,#36454F,Charcoal
+Medium,#CB6D51,Copper Red
+Medium,#8A9A5B,Moss Green
+Medium,#8E4585,Plum
+Dark,#F7E7CE,Champagne
+Dark,#8C8C8C,Medium Gray
+Dark,#F88379,Coral Pink
+Dark,#40E0D0,Turquoise
+Dark,#008B8B,Dark Cyan
+Dark,#BA55D3,Medium Orchid
+Dark,#FFA07A,Light Salmon
+Dark,#708090,Slate Gray
+Dark,#FFDAB9,Peach Puff
+Dark,#708090,Slate Gray
+Dark,#8A9A5B,Moss Green
+Dark,#AFEEEE,Pale Turquoise
+Dark,#DC143C,Crimson
+Dark,#6A5ACD,Slate Blue
+Dark,#FFDAB9,Peach Puff
+Dark,#DA70D6,Orchid
+Dark,#D3D3D3,Light Gray
+Dark,#E30B17,Red Salsa
+Dark,#E6E6FA,Lavender
+Dark,#2E8B57,Sea Green
+Dark,#FF6F61,Bittersweet
+Dark,#9ACD32,Yellow Green
+Dark,#996666,Copper Rose
+Dark,#9966CC,Amethyst
+Dark,#003F5C,Indigo Dye
+Dark,#9DC183,Light Moss Green
+Dark,#C4C3D0,Lavender Gray
+Dark,#F5FFFA,Mint Cream
+Dark,#DC143C,Crimson
+Dark,#FFEFD5,Papaya Whip
+Dark,#40E0D0,Turquoise
+Dark,#7FFF00,Chartreuse
+Dark,#D4B16A,Tan
+Dark,#0F52BA,Sapphire Blue
+Dark,#6B8E23,Olive Drab
+Dark,#8A2BE2,Blue Violet
+Dark,#FA8072,Salmon
+Dark,#DAA520,Goldenrod
+Dark,#556B2F,Dark Olive Green
+Dark,#FBCEB1,Apricot
+Dark,#008080,Teal
+Dark,#8A9A5B,Moss Green
+Dark,#FF6F61,Bittersweet
+Dark,#00CED1,Dark Turquoise
+Dark,#FFD700,Gold
+Dark,#4682B4,Steel Blue
+Dark,#FFDAB9,Peach Puff
+Dark,#50C878,Emerald Green
+Dark,#F28500,Orange
+Dark,#9FE2BF,Pale Green
+Dark,#6D28D9,Purple
+Dark,#FFDAB9,Peach Puff
+Dark,#808000,Olive
+Dark,#8A2BE2,Blue Violet
+Dark,#20B2AA,Light Sea Green
+Dark,#4682B4,Steel Blue
+Dark,#BA55D3,Medium Orchid
+Dark,#9FE2BF,Pale Green
+Dark,#FD5E53,Sunset Orange
+Dark,#FFDAB9,Peach Puff
+Dark,#00CED1,Dark Turquoise
+Dark,#FF7F50,Coral
+Dark,#F5FFFA,Mint Cream
+Dark,#2E8B57,Sea Green
+Dark,#B76E79,Rose Gold
+Dark,#7FFF00,Chartreuse
+Dark,#8A9A5B,Moss Green
+Dark,#FD5E53,Sunset Orange
+Dark,#BA55D3,Medium Orchid
+Dark,#F0FFF0,Honeydew
+Dark,#DAA520,Goldenrod
+Dark,#FFDAB9,Peach Puff
+Dark,#50C878,Emerald Green
+Dark,#CC5500,Burnt Orange
+Dark,#F5DEB3,Wheat
+Dark,#F7CAC9,Pale Pink
+Dark,#F88379,Coral Pink
+Dark,#7B68EE,Medium Slate Blue
+Dark,#8A9A5B,Moss Green
+Dark,#F9C2C2,Pastel Pink
+Dark,#00CED1,Dark Turquoise
+Dark,#FFDB58,Mustard Yellow
+Dark,#F88379,Coral Pink
+Dark,#9DC183,Light Moss Green
+Dark,#8A2BE2,Blue Violet
+Dark,#D8BFD8,Thistle
+Dark,#D8BFD8,Thistle
+Dark,#9FE2BF,Pale Green
+Dark,#E4B77B,Desert Sand
+Dark,#E0FFFF,Light Cyan
+Dark,#FD5E53,Sunset Orange
+Dark,#98FF98,Mint Green
+Dark,#DAA520,Goldenrod
+Dark,#9FE2BF,Pale Green
+Dark,#B76E79,Rose Gold
+Dark,#CC5500,Burnt Orange
+Dark,#E0FFFF,Light Cyan
+Dark,#8A9A5B,Moss Green
+Dark,#BA55D3,Medium Orchid
+Dark,#708090,Slate Gray
+Dark,#008080,Teal
+Dark,#FDD5B1,Apricot
+Dark,#FFDA03,Daffodil Yellow
+Dark,#2E8B57,Sea Green
+Dark,#E97451,Terra Cotta
+Dark,#F7CAC9,Pale Pink
+Dark,#E4B77B,Desert Sand
+Dark,#9DC183,Light Moss Green
+Dark,#708090,Slate Gray
+Dark,#FA8072,Salmon
+Dark,#008C95,Dark Cyan
+Dark,#F88379,Coral Pink
+Dark,#B0E0E6,Powder Blue
+Dark,#6D28D9,Purple
+Dark,#98FF98,Mint Green
+Dark,#9DC183,Sage Green
+Dark,#E6E6FA,Lavender
+Dark,#FD5E53,Sunset Orange
+Dark,#9FE2BF,Sea Foam Green
+Dark,#F9C2C2,Melon
+Dark,#F5DEB3,Wheat
+Dark,#87CEEB,Sky Blue
+Dark,#B87333,Copper
+Dark,#F7E7CE,Champagne
+Dark,#6B8E23,Olive Drab
+Dark,#F9C2C2,Pale Red
+Dark,#6A5ACD,Slate Blue
+Dark,#B76E79,Rose Gold
+Dark,#FBCEB1,Apricot
+Dark,#CC5500,Burnt Orange
+Dark,#00CED1,Dark Turquoise
+Dark,#F88379,Coral Pink
+Dark,#B0E0E6,PowderBlue
+Dark,#6D28D9,Violet Shade
+Dark,#FFDAB9,Peach Puff
+Dark,#FFD700,Gold
+Dark,#E6E6FA,Lavender
+Dark,#E97451,Burnt Sienna
+Dark,#9FE2BF,Sea Foam Green
+Dark,#6A5ACD,SlateBlue
+Dark,#00FFFF,Aqua
+Dark,#FA8072,Salmon
+Dark,#B0C4DE, LightSteelBlue
+Dark,#7851A9,Royal Purple
+Dark,#2E8B57,SeaGreen4
+Dark,#CC5500,Burnt Orange
+Dark,#FBCEB1, Apricot
+Dark,#AFEEEE,PaleTurquoise
+Dark,#B76E79,Rose gold

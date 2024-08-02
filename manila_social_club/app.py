@@ -11,6 +11,7 @@ import numpy as np
 import cv2
 from sklearn.cluster import KMeans
 from sklearn.neighbors import KNeighborsClassifier
+import random
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -45,29 +46,33 @@ def init_db():
 
 init_db()
 
-def load_data():
-    df = pd.read_csv(CSV_FILE)
-    df['color'] = df['color'].str.strip()
-    df['colorname'] = df['colorname'].str.strip()  # Ensure the color names are stripped of any extra whitespace
-    return df
+class ColorRecommendationCNN(torch.nn.Module):
+    def __init__(self):
+        super(ColorRecommendationCNN, self).__init__()
+        self.conv1 = torch.nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, stride=1, padding=1)
+        self.conv2 = torch.nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1, padding=1)
+        self.fc1 = torch.nn.Linear(64 * 56 * 56, 128)
+        self.fc2 = torch.nn.Linear(128, 3)  # Adjusted to 3 categories: Fair, Medium, Dark
 
+    def forward(self, x):
+        x = torch.nn.functional.relu(self.conv1(x))
+        x = torch.nn.functional.max_pool2d(x, 2)
+        x = torch.nn.functional.relu(self.conv2(x))
+        x = torch.nn.functional.max_pool2d(x, 2)
+        x = x.view(-1, 64 * 56 * 56)
+        x = torch.nn.functional.relu(self.fc1(x))
+        x = self.fc2(x)
+        return x
 
-def hex_to_color_name(hex_code, df):
-    match = df[df['color'] == hex_code]
-    if not match.empty:
-        return match['colorname'].values[0]
-    return 'Unknown'
+model = ColorRecommendationCNN()
+model.eval()
 
-
-def train_knn(df):
-    X = df[['r', 'g', 'b']].values
-    y = df['color'].values
-    knn = KNeighborsClassifier(n_neighbors=3)
-    knn.fit(X, y)
-    return knn
-
-color_df = load_data()
-knn_model = train_knn(color_df)
+MODEL_PATH = 'model_weights.pth'
+if os.path.exists(MODEL_PATH):
+    model.load_state_dict(torch.load(MODEL_PATH))
+    print("Model loaded successfully.")
+else:
+    print(f"No model weights found at {MODEL_PATH}. Model will be initialized with random weights.")
 
 def preprocess_image(img):
     preprocess = transforms.Compose([
@@ -85,69 +90,65 @@ def extract_colors_from_image(image_path):
     avg_colors = image_np.mean(axis=(0, 1))
     return avg_colors
 
+def load_color_data(filepath):
+    return pd.read_csv(filepath)
+
+# Define the path to your CSV file
+csv_file_path = 'skintontest.csv'
+color_data = load_color_data(csv_file_path)
+
 def predict_colors_knn(img_path, skin_tone):
-    try:
-        img = Image.open(img_path).convert('RGB')
-        img_tensor = preprocess_image(img)
+    # Extract colors for the detected skin tone from the DataFrame
+    if skin_tone not in color_data['skinTone'].values:
+        return []  # No colors available for this skin tone
+    
+    # Filter the DataFrame for the detected skin tone
+    filtered_colors = color_data[color_data['skinTone'] == skin_tone]
+    
+    # Retrieve unique color names and hex codes
+    colors = filtered_colors[['color', 'colorname']].drop_duplicates().values.tolist()
+    
+    random.shuffle(colors)
 
-        avg_colors = extract_colors_from_image(img_path)
-        r, g, b = avg_colors
-
-        predicted_hex_colors = knn_model.predict([[r, g, b]])
-        color_names = [hex_to_color_name(hex_color, color_df) for hex_color in predicted_hex_colors]
-
-        return color_names
-    except Exception as e:
-        print(f"Error predicting colors: {e}")
-        return ['Unknown']
+    # Limit recommendations to 3 colors (or any other number you prefer)
+    recommended_colors = colors[:3]
+    
+    return recommended_colors
 
 
-def filter_colors_by_skin_tone(df, skin_tone):
-    filtered_df = df[df['skin_tone'] == skin_tone]
-    return filtered_df[['color', 'r', 'g', 'b']]
-
-def recommend_colors(df, skin_tone, n_colors=3):
-    filtered_df = filter_colors_by_skin_tone(df, skin_tone)
-    # Shuffle the filtered DataFrame and select `n_colors` random colors
-    filtered_df = filtered_df.sample(frac=1).reset_index(drop=True)
-    recommended_colors = filtered_df.head(n_colors)
-    return recommended_colors['color'].tolist()
 
 def detect_skin_tone(image_path):
     try:
         img = cv2.imread(image_path)
         img_ycbcr = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
+        lower = np.array([0, 133, 77], dtype=np.uint8)
+        upper = np.array([255, 173, 127], dtype=np.uint8)
+        mask = cv2.inRange(img_ycbcr, lower, upper)
+        skin = cv2.bitwise_and(img, img, mask=mask)
+        skin_rgb = cv2.cvtColor(skin, cv2.COLOR_BGR2RGB)
+        skin_pixels = skin_rgb[mask != 0]
+        
+        if len(skin_pixels) == 0:
+            return 'Unknown', []
 
-        skin_tone_ranges = {
-            'Fair': (np.array([0, 133, 77], dtype=np.uint8), np.array([255, 173, 127], dtype=np.uint8)),
-            'Medium': (np.array([0, 120, 85], dtype=np.uint8), np.array([255, 155, 125], dtype=np.uint8)),
-            'Dark': (np.array([0, 85, 60], dtype=np.uint8), np.array([255, 120, 90], dtype=np.uint8))
+        kmeans = KMeans(n_clusters=1)
+        kmeans.fit(skin_pixels)
+        avg_rgb = kmeans.cluster_centers_[0]
+        
+        skin_tone_thresholds = {
+            'Fair': [160, 130, 100],
+            'Medium': [120, 100, 90],
+            'Dark': [80, 60, 50],
         }
-
-        masks = {}
-        for tone, (lower, upper) in skin_tone_ranges.items():
-            masks[tone] = cv2.inRange(img_ycbcr, lower, upper)
-
-        skin_tone_percentages = {}
-        for tone, mask in masks.items():
-            skin_pixels = cv2.bitwise_and(img, img, mask=mask)
-            skin_pixels_count = np.sum(mask != 0)
-            total_pixels = img.shape[0] * img.shape[1]
-            skin_tone_percentages[tone] = (skin_pixels_count / total_pixels) * 100
-
-        predominant_skin_tone = max(skin_tone_percentages, key=skin_tone_percentages.get)
-
-        df = load_data()
-        recommended_colors = recommend_colors(df, predominant_skin_tone, n_colors=3)
-        color_names = {color: hex_to_color_name(color, df) for color in recommended_colors}
-
-        return predominant_skin_tone, color_names
-
+        
+        for tone, threshold in skin_tone_thresholds.items():
+            if all(avg_rgb >= np.array(threshold)):
+                return tone, predict_colors_knn(avg_rgb, tone)
+        
+        return 'Unknown', []
     except Exception as e:
         print(f"Error detecting skin tone: {e}")
-        return 'Unknown', {}
-
-
+        return 'Unknown', []
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():

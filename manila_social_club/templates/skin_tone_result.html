@@ -73,8 +73,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            color: black;
+            font-size: 16px;
+            color: #fff;
             font-family: Georgia, 'Times New Roman', Times, serif;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.693);
             transition: transform 0.3s ease;
@@ -169,9 +169,9 @@
             <h2>Uploaded Image:</h2>
             <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="Uploaded Image" class="image-preview">
             {% endif %}
-            {% if skin_tone %}
         </div>
         <div class="right-content">
+            {% if skin_tone %}
             <h3>Detected Skin Tone:</h3>
             <div class="skin">
                 {{ skin_tone }}
@@ -180,16 +180,16 @@
             {% if recommended_colors %}
             <h4>Recommended Colors:</h4>
             <div class="color-container">
-                {% for color, color_name in recommended_colors.items() %}
-                <div class="color-box" style="background-color: {{ color }};">
-                    {{ color_name }}<br>{{ color }}
+                {% for color in recommended_colors %}
+                <div class="color-box" style="background-color: {{ color[0] }};">
+                    {{ color[1] }}
                 </div>
                 {% endfor %}
                 <a class="button" href="{{ url_for('upload') }}">Upload Another Image</a>
             </div>
             {% endif %}
             <a class="button" href="{{ url_for('productpage') }}">Satisfied</a>
-            <a class="button" href="/choose_colors">Choose My Own Colors</a>
+            <a class="button" href="{{ url_for('choose_colors') }}">Not Satisfied</a>
         </div>
     </div>
 </body>
