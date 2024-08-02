@@ -48,7 +48,16 @@ init_db()
 def load_data():
     df = pd.read_csv(CSV_FILE)
     df['color'] = df['color'].str.strip()
+    df['colorname'] = df['colorname'].str.strip()  # Ensure the color names are stripped of any extra whitespace
     return df
+
+
+def hex_to_color_name(hex_code, df):
+    match = df[df['color'] == hex_code]
+    if not match.empty:
+        return match['colorname'].values[0]
+    return 'Unknown'
+
 
 def train_knn(df):
     X = df[['r', 'g', 'b']].values
@@ -80,16 +89,18 @@ def predict_colors_knn(img_path, skin_tone):
     try:
         img = Image.open(img_path).convert('RGB')
         img_tensor = preprocess_image(img)
-        
+
         avg_colors = extract_colors_from_image(img_path)
         r, g, b = avg_colors
-        
-        predicted_colors = knn_model.predict([[r, g, b]])
-        
-        return predicted_colors.tolist()
+
+        predicted_hex_colors = knn_model.predict([[r, g, b]])
+        color_names = [hex_to_color_name(hex_color, color_df) for hex_color in predicted_hex_colors]
+
+        return color_names
     except Exception as e:
         print(f"Error predicting colors: {e}")
         return ['Unknown']
+
 
 def filter_colors_by_skin_tone(df, skin_tone):
     filtered_df = df[df['skin_tone'] == skin_tone]
@@ -128,12 +139,15 @@ def detect_skin_tone(image_path):
 
         df = load_data()
         recommended_colors = recommend_colors(df, predominant_skin_tone, n_colors=3)
-        
-        return predominant_skin_tone, recommended_colors
+        color_names = {color: hex_to_color_name(color, df) for color in recommended_colors}
+
+        return predominant_skin_tone, color_names
 
     except Exception as e:
         print(f"Error detecting skin tone: {e}")
-        return 'Unknown', []
+        return 'Unknown', {}
+
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -170,11 +184,22 @@ def query_db(query, args=(), one=False):
     conn.close()
     return (rv[0] if rv else None) if one else rv
 
-@app.route('/results')
-def results():
-    skin_tone = request.args.get('skin_tone', default='Unknown', type=str)
-    recommended_colors = session.get('recommended_colors', [])
-    return render_template('skin_tone_result.html', skin_tone=skin_tone, recommended_colors=recommended_colors)
+@app.route('/result', methods=['POST'])
+def result():
+    if 'file' not in request.files:
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+
+        skin_tone, recommended_colors = detect_skin_tone(file_path)
+        return render_template('skin_tone_result.html', filename=filename, skin_tone=skin_tone, recommended_colors=recommended_colors)
+    return redirect(request.url)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

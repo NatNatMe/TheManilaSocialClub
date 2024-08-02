@@ -73,8 +73,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            color: #fff;
+            font-size: 12px;
+            color: black;
             font-family: Georgia, 'Times New Roman', Times, serif;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.693);
             transition: transform 0.3s ease;
@@ -180,9 +180,9 @@
             {% if recommended_colors %}
             <h4>Recommended Colors:</h4>
             <div class="color-container">
-                {% for color in recommended_colors %}
+                {% for color, color_name in recommended_colors.items() %}
                 <div class="color-box" style="background-color: {{ color }};">
-                    {{ color }}
+                    {{ color_name }}<br>{{ color }}
                 </div>
                 {% endfor %}
                 <a class="button" href="{{ url_for('upload') }}">Upload Another Image</a>
