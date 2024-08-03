@@ -206,7 +206,7 @@ def login():
             session['user_id'] = user[0]
             session['username'] = user[3]  
             session['profile_created'] = True  
-            return redirect(url_for('product_page'))
+            return redirect(url_for('productpage'))
         else:
             session['login_attempts'] += 1
             session['last_attempt_time'] = time.time()
@@ -260,7 +260,7 @@ def profile():
         }
         return render_template('profile.html', profile_data=profile_data)
     else:
-        return redirect(url_for('product_page'))
+        return redirect(url_for('productpage'))
     
 @app.route('/productpage')
 def productpage():
@@ -303,7 +303,7 @@ def satisfaction():
         elif satisfaction == 'not_satisfied':
             return redirect(url_for('choose_colors'))
     
-    return redirect(url_for('product_page'))
+    return redirect(url_for('productpage'))
 
 @app.route('/choose_colors', methods=['GET', 'POST'])
 def choose_colors():

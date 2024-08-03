@@ -7,6 +7,18 @@
     <script defer src="{{ url_for('static', filename='jscript.js') }}"></script>
     <title>Product Page</title>
     <style>
+        @media only screen and (max-width: 992px){
+            body{
+                overflow-x: auto;
+                margin: 0px;
+            }
+            nav{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;

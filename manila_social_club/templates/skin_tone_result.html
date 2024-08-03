@@ -16,23 +16,29 @@
             color: #f0f0f0;
             padding: 20px;
         }
+        
         h1, h2, h3, h4 {
             font-family: Georgia, 'Times New Roman', Times, serif;
             margin: 10px 0;
             text-align: center;
         }
+        
         h1 {
             font-size: 36px;
         }
+        
         h2 {
             font-size: 24px;
         }
+        
         h3 {
             font-size: 18px;
         }
+        
         h4 {
             font-size: 18px;
         }
+        
         .container {
             display: flex;
             justify-content: space-between;
@@ -42,29 +48,42 @@
             width: 1100px;
             height: 450px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgb(235, 233, 233);
-            position: fixed;
             box-shadow: 0 0 50px rgb(255, 255, 255);
+            position: fixed;
+            box-shadow: 0 0 10px rgb(235, 233, 233);
         }
+        
+        .form-container {
+            max-width: 500px;
+        }
+        
         .left-content, .right-content {
-            padding: 20px;
-            width: 50%;
+            padding: 10px;
+            height: auto;
         }
+        
         .left-content {
             text-align: center;
+            max-width: 40%;
+
         }
+        
         .right-content {
             text-align: center;
             background-color: #555353d3;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            font-size: 12px;
+            max-width: 60%;
         }
+        
         .color-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             margin-top: 20px;
         }
+        
         .color-box {
             width: 100px;
             height: 100px;
@@ -73,18 +92,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            color: #fff;
+            font-size: 12px;
+            color: black;
             font-family: Georgia, 'Times New Roman', Times, serif;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.693);
             transition: transform 0.3s ease;
             cursor: pointer;
         }
+        
         .color-box:hover {
             transform: scale(1.1);
         }
+        
         .skin {
-            width: 200px;
+            width: 150px;
             height: 50px;
             border-radius: 10px;
             background-color: #1c1c1c;
@@ -98,6 +119,7 @@
             font-size: 16px;
             text-align: center;
         }
+        
         .button {
             padding: 10px 20px;
             margin: 5px;
@@ -109,22 +131,25 @@
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
+            font-size: 12px;
             font-family: 'Georgia', 'Times New Roman', Times, serif;
             transition: background-color 0.3s ease, transform 0.3s ease;
             margin-top: 10px;
         }
+        
         .button:hover {
             background-color: #666;
             transform: scale(1.05);
         }
+        
         .image-preview {
-            max-width: 350px;
-            max-height: 350px;
+            max-width: 100%;
+            height: auto;
             border-radius: 10px;
             margin: 20px 0;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
+        
         .logo {
             display: flex;
             align-items: center;
@@ -132,11 +157,13 @@
             margin-bottom: 600px;
             position: fixed;
         }
+        
         .logo img {
             width: 900px;
             height: 500px;
             border-radius: 120px;
         }
+        
         .shirt-preview {
             width: 100%;
             max-width: 400px;
@@ -151,6 +178,7 @@
             position: relative;
             overflow: hidden; /* Ensure no color spills outside */
         }
+        
         .shirt-preview::after {
             content: '';
             display: block;
@@ -164,31 +192,94 @@
             border-radius: 10px;
             z-index: 1; /* Ensure it is above the background image */
         }
+        
         .shirt-preview img {
             position: relative; /* Ensure image is on top */
             z-index: 2;
         }
-        @media (max-width: 600px) {
-            .color-box {
+        
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+                margin-top: 5%;
+                height: auto;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            .left-content, .right-content {
                 width: 100%;
-                height: 40px;
+                padding: 10px;
+            }
+            .image-preview {
+                max-width: 80%;
+                max-height: 80%;
+            }
+            .color-box {
+                width: 80px;
+                height: 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                margin-top: 5%;
+                height: auto;
+                padding: 10px;
+            }
+            .left-content, .right-content {
+                width: 100%;
+                padding: 10px;
+                text-align: center;
+            }
+            .image-preview {
+                max-width: 70%;
+                max-height: 70%;
+            }
+            .color-box {
+                width: 60px;
+                height: 60px;
+            }
+            .button {
+                width: 100%;
+                margin-top: 5px;
+            }
+            .shirt-preview {
+                margin-left: 0;
+                margin: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+                padding: 5px;
+            }
+            .left-content, .right-content {
+                width: 100%;
+                padding: 5px;
+                text-align: center;
+            }
+            .image-preview {
+                max-width: 90%;
+                max-height: 90%;
+            }
+            .color-box {
+                width: 50px;
+                height: 50px;
+                margin: 5px;
             }
             .button {
                 width: 100%;
                 padding: 10px;
-            }
-            .container {
-                flex-direction: column;
-                width: 100%;
-            }
-            .left-content, .right-content {
-                width: 100%;
-                margin: 0;
-            }
-            .right-content {
-                margin-top: 20px;
+                margin: 5px 0;
             }
         }
+        
         .modal {
             display: none; /* Hidden by default */
             position: fixed;
@@ -200,6 +291,7 @@
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.5);
         }
+        
         .modal-content {
             background-color: #fefefe00;
             margin: 15% auto;
@@ -209,18 +301,21 @@
             max-width: 600px;
             position: relative;
         }
+        
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
+        
         .close:hover,
         .close:focus {
             color: black;
             text-decoration: none;
             cursor: pointer;
         }
+        
     </style>
     <script>
         function showShirt(colorHex) {
@@ -271,10 +366,11 @@
                 </div>
                 {% endfor %}
                 <a class="button" href="{{ url_for('upload') }}">Upload Another Image</a>
+                {% endif %}
+                <a class="button" href="{{ url_for('productpage') }}">Satisfied</a>
+                <a class="button" href="{{ url_for('choose_colors') }}">Not Satisfied</a>
             </div>
-            {% endif %}
-            <a class="button" href="{{ url_for('productpage') }}">Satisfied</a>
-            <a class="button" href="{{ url_for('choose_colors') }}">Not Satisfied</a>
+            
         </div>
     </div>
     <div id="colorModal" class="modal">
