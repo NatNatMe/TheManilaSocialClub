@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, redirect, send_from_directory
 from werkzeug.utils import secure_filename
 from PIL import Image
 import torch
+import torch.nn as nn
 import torchvision.transforms as transforms
 import numpy as np
 import cv2
@@ -20,14 +21,16 @@ DATABASE = 'database.db'
 CSV_FILE = 'skintone.csv'
 
 def init_db():
+    """Initialize the database with schema"""
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             firstname TEXT NOT NULL,
             lastname TEXT NOT NULL,
-            username TEXT NOT NULL UNIQUE,
+            username TEXT UNIQUE NOT NULL,
             email TEXT NOT NULL,
             password TEXT NOT NULL
         )
@@ -35,41 +38,38 @@ def init_db():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS shirt_designs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
+            user_id INTEGER,
             color TEXT NOT NULL,
             design TEXT NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users(id)
+            FOREIGN KEY(user_id) REFERENCES users(id)
         )
     ''')
     conn.commit()
     conn.close()
 
-init_db()
-
-class ColorRecommendationCNN(torch.nn.Module):
+class CustomSkinToneCNN(nn.Module):
     def __init__(self):
-        super(ColorRecommendationCNN, self).__init__()
-        self.conv1 = torch.nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, stride=1, padding=1)
-        self.conv2 = torch.nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1, padding=1)
-        self.fc1 = torch.nn.Linear(64 * 56 * 56, 128)
-        self.fc2 = torch.nn.Linear(128, 3)  # Adjusted to 3 categories: Fair, Medium, Dark
+        super(CustomSkinToneCNN, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, stride=1, padding=1)
+        self.conv2 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1, padding=1)
+        self.fc1 = nn.Linear(64 * 56 * 56, 128)
+        self.fc2 = nn.Linear(128, 3)  # Output size should match the number of skin tones
 
     def forward(self, x):
-        x = torch.nn.functional.relu(self.conv1(x))
-        x = torch.nn.functional.max_pool2d(x, 2)
-        x = torch.nn.functional.relu(self.conv2(x))
-        x = torch.nn.functional.max_pool2d(x, 2)
+        x = nn.functional.relu(self.conv1(x))
+        x = nn.functional.max_pool2d(x, 2)
+        x = nn.functional.relu(self.conv2(x))
+        x = nn.functional.max_pool2d(x, 2)
         x = x.view(-1, 64 * 56 * 56)
-        x = torch.nn.functional.relu(self.fc1(x))
+        x = nn.functional.relu(self.fc1(x))
         x = self.fc2(x)
         return x
 
-model = ColorRecommendationCNN()
-model.eval()
-
-MODEL_PATH = 'model_weights.pth'
+MODEL_PATH = 'skintone_weights.pth' 
+model = CustomSkinToneCNN()
 if os.path.exists(MODEL_PATH):
     model.load_state_dict(torch.load(MODEL_PATH))
+    model.eval()
     print("Model loaded successfully.")
 else:
     print(f"No model weights found at {MODEL_PATH}. Model will be initialized with random weights.")
@@ -93,7 +93,6 @@ def extract_colors_from_image(image_path):
 def load_color_data(filepath):
     return pd.read_csv(filepath)
 
-# Define the path to your CSV file
 csv_file_path = 'skintontest.csv'
 color_data = load_color_data(csv_file_path)
 
@@ -114,8 +113,6 @@ def predict_colors_knn(img_path, skin_tone):
     recommended_colors = colors[:3]
     
     return recommended_colors
-
-
 
 def detect_skin_tone(image_path):
     try:
@@ -173,8 +170,11 @@ def upload():
 
     return render_template('upload.html')
 
+
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg'}
+
 
 def query_db(query, args=(), one=False):
     conn = sqlite3.connect(DATABASE)
@@ -184,23 +184,6 @@ def query_db(query, args=(), one=False):
     conn.commit()
     conn.close()
     return (rv[0] if rv else None) if one else rv
-
-@app.route('/result', methods=['POST'])
-def result():
-    if 'file' not in request.files:
-        return redirect(request.url)
-    file = request.files['file']
-    if file.filename == '':
-        return redirect(request.url)
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(file_path)
-
-        skin_tone, recommended_colors = detect_skin_tone(file_path)
-        return render_template('skin_tone_result.html', filename=filename, skin_tone=skin_tone, recommended_colors=recommended_colors)
-    return redirect(request.url)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -214,7 +197,7 @@ def login():
         
         if session['login_attempts'] >= 3 and time.time() - session['last_attempt_time'] < 20:
             wait_time = 20 - (time.time() - session['last_attempt_time'])
-            return render_template('login.html', message='Too many failed attempts.', wait_time=int(wait_time))
+            return render_template('login.html', message='Too many failed attempts.',  wait_time=int(wait_time))
 
         user = query_db('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], one=True)
         
@@ -223,13 +206,14 @@ def login():
             session['user_id'] = user[0]
             session['username'] = user[3]  
             session['profile_created'] = True  
-            return redirect(url_for('productpage'))
+            return redirect(url_for('product_page'))
         else:
             session['login_attempts'] += 1
             session['last_attempt_time'] = time.time()
             return render_template('login.html', message='Invalid credentials. Please try again.', wait_time=0)
 
-    return render_template('login.html', wait_time=0)
+    return render_template('login.html',  wait_time=0)
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -243,6 +227,7 @@ def signup():
         if len(username) < 5:
             return render_template('signup.html', message='Username must be at least 5 characters long.')
 
+        # Check password length and if it contains at least one number
         if len(password) < 7 or not any(char.isdigit() for char in password):
             return render_template('signup.html', message='Password must be at least 7 characters long and contain at least one number.')
         user = query_db('SELECT * FROM users WHERE username = ?', [username], one=True)
@@ -270,31 +255,13 @@ def profile():
             'firstname': user[1],
             'lastname': user[2],
             'username': user[3],
-            'email': user[4]
+            'email': user[4],
+            'shirt_designs': shirt_designs 
         }
-        return render_template('profile.html', profile_data=profile_data, shirt_designs=shirt_designs)
+        return render_template('profile.html', profile_data=profile_data)
     else:
-        return redirect(url_for('login'))
-
-@app.route('/design_shirt', methods=['GET', 'POST'])
-def design_shirt():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-
-    if request.method == 'POST':
-        color = request.form['color']
-        design = request.form['design']
-        user_id = session['user_id']
-        
-        query_db('INSERT INTO shirt_designs (user_id, color, design) VALUES (?, ?, ?)', [user_id, color, design])
-        return redirect(url_for('profile'))
-
-    return render_template('design_shirt.html')
-
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
+        return redirect(url_for('product_page'))
+    
 @app.route('/productpage')
 def productpage():
     if 'user_id' not in session:
@@ -305,10 +272,29 @@ def productpage():
     }
 
     return render_template('productpage.html', user_profile=user_profile)
+@app.route('/about')
+def about_us():
+    return render_template('about_us.html')
+
+@app.route('/result', methods=['POST'])
+def result():
+    if 'file' not in request.files:
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+
+        skin_tone, recommended_colors = detect_skin_tone(file_path)
+        return render_template('skin_tone_result.html', filename=filename, skin_tone=skin_tone, recommended_colors=recommended_colors)
+    return redirect(request.url)
 
 @app.route('/satisfaction', methods=['POST'])
 def satisfaction():
-    if request.method == ['POST']:
+    if request.method == 'POST':
         satisfaction = request.form['satisfaction']
 
         if satisfaction == 'satisfied':
@@ -318,29 +304,6 @@ def satisfaction():
             return redirect(url_for('choose_colors'))
     
     return redirect(url_for('product_page'))
-
-@app.route('/logout', methods=['POST'])
-def logout():
-    session.pop('user_id', None)
-    session.pop('username', None)
-    return redirect(url_for('home'))
-
-@app.route('/design_garment')
-def design_garment():
-    if 'recommended_colors' in session:
-        recommended_colors = session['recommended_colors']
-    else:
-        recommended_colors = ['No colors recommended']
-
-    return render_template('design_garment.html', recommended_colors=recommended_colors)
-
-@app.route('/tshirt_image')
-def tshirt_image():
-    return send_from_directory('static', 'cus.png')
-
-@app.route('/hoodie_image')
-def hoodie_image():
-    return send_from_directory('static', 'hood.png')
 
 @app.route('/choose_colors', methods=['GET', 'POST'])
 def choose_colors():
@@ -357,15 +320,38 @@ def choose_colors():
 
     return render_template('choose_colors.html')
 
-@app.route('/about')
-def about_us():
-    return render_template('about_us.html')
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('user_id', None)  # Clear user_id from the session
+    session.pop('username', None)  # Clear the username from the session
+    return redirect(url_for('home'))
+
+@app.route('/design_garment')
+def design_garment():
+    if 'recommended_colors' in session:
+        recommended_colors = session['recommended_colors']
+    else:
+        recommended_colors = ['No colors recommended']
+
+    return render_template('design_garment.html', recommended_colors=recommended_colors)
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
+@app.route('/tshirt_image')
+def tshirt_image():
+    return send_from_directory('static', 'cus.png')
+
+@app.route('/hoodie_image')
+def hoodie_image():
+    return send_from_directory('static', 'hood.png')
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)

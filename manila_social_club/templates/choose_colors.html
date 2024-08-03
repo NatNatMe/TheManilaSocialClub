@@ -149,23 +149,21 @@
             </select>
             <br>
             <select name="designPicker" id="designPicker" class="content">
-                <option value="none">Select a design</option>
-                <option value="{{ url_for('static', filename='design1.jpg') }}">Design 1</option>
-                <option value="{{ url_for('static', filename='msclogo.jpg') }}">Design 2</option>
-                <option value="{{ url_for('static', filename='MSC1.png') }}">Design 3</option>
-                <option value="{{ url_for('static', filename='skate.png') }}">Design 4</option>
-                <option value="{{ url_for('static', filename='zone.png') }}">Design 5</option>
-                <option value="{{ url_for('static', filename='flip.png') }}">Design 6</option>
-                <option value="{{ url_for('static', filename='bake.png') }}">Design 7</option>
-                <option value="{{ url_for('static', filename='ghet.png') }}">Design 8</option>
-                <option value="{{ url_for('static', filename='gameover.png') }}">Design 9</option>
-                <option value="{{ url_for('static', filename='nownever.png') }}">Design 10</option>
-                <option value="{{ url_for('static', filename='lifesaks.png') }}">Design 11</option>
-                <option value="{{ url_for('static', filename='MANila.png') }}">Design 12</option>
-                <option value="{{ url_for('static', filename='ybreak.png') }}">Design 13</option>
-                <option value="{{ url_for('static', filename='kool.png') }}">Design 14</option>
-
-            </select>
+                    <option value="none">Select a design</option>
+                    <option value="{{ url_for('static', filename='design1.jpg') }}">Design 1</option>
+                    <option value="{{ url_for('static', filename='msclogo.jpg') }}">Design 2</option>
+                    <option value="{{ url_for('static', filename='MSC1.png') }}">Design 3</option>
+                    <option value="{{ url_for('static', filename='heto.png') }}">Design 4</option>
+                    <option value="{{ url_for('static', filename='bake.png') }}">Design 5</option>
+                    <option value="{{ url_for('static', filename='game.png') }}">Design 6</option>
+                    <option value="{{ url_for('static', filename='flip.png') }}">Design 7</option>
+                    <option value="{{ url_for('static', filename='kool.png') }}">Design 8</option>
+                    <option value="{{ url_for('static', filename='life.png') }}">Design 9</option>
+                    <option value="{{ url_for('static', filename='skate.png') }}">Design 10</option>
+                    <option value="{{ url_for('static', filename='zone.png') }}">Design 11</option>
+                    <option value="{{ url_for('static', filename='yosi.png') }}">Design 12</option>
+                    <option value="{{ url_for('static', filename='man.png') }}">Design 13</option>
+                </select>
             <br>
             <a href="{{ url_for('result') }}" class="button">Back</a>
             <button class="button" type="submit">Save</button>
@@ -178,10 +176,12 @@
         hoodieImage.src = "/hoodie_image"; // Replace with actual hoodie image path
         tshirtImage.src = "/tshirt_image"; // Replace with actual t-shirt image path
         var currentClothingImage = tshirtImage;
-
-        var designImage = new Image();
-        var designPosition = { x: 100, y: 100 };
-        var isDragging = false;
+        var designs = []; // Array to store multiple designs
+        var selectedDesign = null;
+        var offsetX, offsetY;
+        var resizing = false;
+        var resizeHandleSize = 10;
+        var zoomFactor = 1.1; // Zoom factor
 
         var sizeMultiplier = {
             small: 0.7,
@@ -190,10 +190,10 @@
         };
 
         currentClothingImage.onload = function() {
-            redrawCanvas(document.getElementById('colorPicker').value, document.getElementById('designPicker').value);
+            redrawCanvas(document.getElementById('colorPicker').value);
         };
 
-        function redrawCanvas(color, designSrc) {
+        function redrawCanvas(color) {
             var canvas = document.getElementById('tshirtCanvas');
             var ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -212,27 +212,65 @@
             ctx.fillRect(offsetX, offsetY, imageWidth, imageHeight);
             ctx.globalCompositeOperation = 'source-over';
 
-            if (designSrc !== 'none') {
-                designImage.src = designSrc;
-                designImage.onload = function() {
-                    var designSize = 100 * scale;
-                    ctx.drawImage(designImage, designPosition.x, designPosition.y, designSize, designSize);
-                };
+            designs.forEach(function(design) {
+                ctx.drawImage(design.img, design.x, design.y, design.width, design.height);
+            });
+
+            drawDesignHandles(ctx);
+        }
+
+        function drawDesignHandles(ctx) {
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(selectedDesign.x, selectedDesign.y, selectedDesign.width, selectedDesign.height);
+
+            if (selectedDesign) {
+                ctx.fillStyle = 'red';
+                ctx.fillRect(selectedDesign.x + selectedDesign.width - resizeHandleSize / 2,
+                             selectedDesign.y + selectedDesign.height - resizeHandleSize / 2,
+                             resizeHandleSize, resizeHandleSize);
             }
         }
 
+        function saveDesigns() {
+            var form = document.getElementById('saveForm');
+            var selectedColors = [];
+            var colorElements = document.querySelectorAll('.colorpic');
+            colorElements.forEach(function(colorElement) {
+                selectedColors.push(colorElement.value);
+            });
+            document.getElementById('selected_colors').value = JSON.stringify(selectedColors);
+        }
+
+        document.getElementById('clothingTypePicker').addEventListener('change', function(event) {
+            var selectedValue = event.target.value;
+            currentClothingImage = selectedValue === 'hoodie' ? hoodieImage : tshirtImage;
+            currentClothingImage.onload = function() {
+                redrawCanvas(document.getElementById('colorPicker').value);
+            };
+        });
+
         document.getElementById('colorPicker').addEventListener('input', function(event) {
-            var selectedColor = event.target.value;
-            var selectedDesign = document.getElementById('designPicker').value;
-            redrawCanvas(selectedColor, selectedDesign);
+            redrawCanvas(event.target.value);
         });
 
         document.getElementById('designPicker').addEventListener('change', function(event) {
-            var selectedColor = document.getElementById('colorPicker').value;
-            var selectedDesign = event.target.value;
-            redrawCanvas(selectedColor, selectedDesign);
-        });
+            var designSrc = event.target.value;
+            if (designSrc === 'none') return;
 
+            var newDesign = new Image();
+            newDesign.src = designSrc;
+            newDesign.onload = function() {
+                designs.push({
+                    img: newDesign,
+                    x: 0,
+                    y: 0,
+                    width: 100,
+                    height: 100
+                });
+                redrawCanvas(document.getElementById('colorPicker').value);
+            };
+        });
         document.getElementById('clothingTypePicker').addEventListener('change', function(event) {
             var clothingType = event.target.value;
             if (clothingType === 'hoodie') {
@@ -242,41 +280,66 @@
             }
             redrawCanvas(document.getElementById('colorPicker').value, document.getElementById('designPicker').value);
         });
-
         document.getElementById('sizePicker').addEventListener('change', function() {
             redrawCanvas(document.getElementById('colorPicker').value, document.getElementById('designPicker').value);
         });
+        document.getElementById('tshirtCanvas').addEventListener('mousedown', function(event) {
+            var rect = event.target.getBoundingClientRect();
+            var mouseX = event.clientX - rect.left;
+            var mouseY = event.clientY - rect.top;
 
-        var canvas = document.getElementById('tshirtCanvas');
-        canvas.addEventListener('mousedown', function(event) {
-            if (designImage.src !== 'none') {
-                var rect = canvas.getBoundingClientRect();
-                var x = event.clientX - rect.left;
-                var y = event.clientY - rect.top;
-                if (x > designPosition.x && x < designPosition.x + 80 && y > designPosition.y && y < designPosition.y + 80) {
-                    isDragging = true;
+            for (var i = 0; i < designs.length; i++) {
+                var design = designs[i];
+                if (mouseX > design.x && mouseX < design.x + design.width &&
+                    mouseY > design.y && mouseY < design.y + design.height) {
+                    selectedDesign = design;
+                    offsetX = mouseX - design.x;
+                    offsetY = mouseY - design.y;
+                    resizing = (mouseX > design.x + design.width - resizeHandleSize &&
+                                mouseY > design.y + design.height - resizeHandleSize);
+                    break;
                 }
             }
         });
 
-        canvas.addEventListener('mousemove', function(event) {
-            if (isDragging) {
+        document.addEventListener('mousemove', function(event) {
+            if (selectedDesign) {
+                var canvas = document.getElementById('tshirtCanvas');
                 var rect = canvas.getBoundingClientRect();
-                designPosition.x = event.clientX - rect.left - 40;
-                designPosition.y = event.clientY - rect.top - 40;
-                redrawCanvas(document.getElementById('colorPicker').value, document.getElementById('designPicker').value);
+                var mouseX = event.clientX - rect.left;
+                var mouseY = event.clientY - rect.top;
+
+                if (resizing) {
+                    selectedDesign.width = mouseX - selectedDesign.x;
+                    selectedDesign.height = mouseY - selectedDesign.y;
+                    redrawCanvas(document.getElementById('colorPicker').value);
+                } else {
+                    selectedDesign.x = mouseX - offsetX;
+                    selectedDesign.y = mouseY - offsetY;
+                    redrawCanvas(document.getElementById('colorPicker').value);
+                }
             }
         });
 
-        canvas.addEventListener('mouseup', function() {
-            isDragging = false;
+        document.addEventListener('mouseup', function(event) {
+            selectedDesign = null;
+            resizing = false;
         });
 
-        document.getElementById('saveForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var selectedColor = document.getElementById('colorPicker').value;
-            document.getElementById('selected_colors').value = selectedColor;
-            this.submit();
+        document.getElementById('tshirtCanvas').addEventListener('wheel', function(event) {
+            if (selectedDesign) {
+                event.preventDefault();
+
+                var zoomIn = event.deltaY < 0;
+                var zoomAmount = zoomIn ? zoomFactor : 1 / zoomFactor;
+                selectedDesign.width *= zoomAmount;
+                selectedDesign.height *= zoomAmount;
+
+                if (selectedDesign.width < 20) selectedDesign.width = 20;
+                if (selectedDesign.height < 20) selectedDesign.height = 20;
+
+                redrawCanvas(document.getElementById('colorPicker').value);
+            }
         });
     </script>
 </body>

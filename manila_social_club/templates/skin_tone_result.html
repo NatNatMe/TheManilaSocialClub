@@ -12,7 +12,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-image: url("{{ url_for('static', filename='black.jpg') }}"); /* Dark background */;
+            background-image: url("{{ url_for('static', filename='black.jpg') }}"); /* Dark background */
             color: #f0f0f0;
             padding: 20px;
         }
@@ -78,6 +78,7 @@
             font-family: Georgia, 'Times New Roman', Times, serif;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.693);
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
         .color-box:hover {
             transform: scale(1.1);
@@ -136,6 +137,37 @@
             height: 500px;
             border-radius: 120px;
         }
+        .shirt-preview {
+            width: 100%;
+            max-width: 400px;
+            height: 400px; /* Adjust height as needed */
+            background-image: url("{{ url_for('static', filename='cas.png') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 10px;
+            margin: 20px 0;
+            margin-left: 100px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden; /* Ensure no color spills outside */
+        }
+        .shirt-preview::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--shirt-color); /* Apply color here */
+            mix-blend-mode: multiply; /* Apply blend mode for effect */
+            border-radius: 10px;
+            z-index: 1; /* Ensure it is above the background image */
+        }
+        .shirt-preview img {
+            position: relative; /* Ensure image is on top */
+            z-index: 2;
+        }
         @media (max-width: 600px) {
             .color-box {
                 width: 100%;
@@ -157,7 +189,60 @@
                 margin-top: 20px;
             }
         }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fefefe00;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
+    <script>
+        function showShirt(colorHex) {
+            console.log('showShirt called with color:', colorHex);
+            document.documentElement.style.setProperty('--shirt-color', colorHex);
+            var modal = document.getElementById('colorModal');
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            console.log('closeModal called');
+            var modal = document.getElementById('colorModal');
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('colorModal');
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="logo">
@@ -181,7 +266,7 @@
             <h4>Recommended Colors:</h4>
             <div class="color-container">
                 {% for color in recommended_colors %}
-                <div class="color-box" style="background-color: {{ color[0] }};">
+                <div class="color-box" style="background-color: {{ color[0] }};" onclick="showShirt('{{color[0]}}')">
                     {{ color[1] }}
                 </div>
                 {% endfor %}
@@ -190,6 +275,13 @@
             {% endif %}
             <a class="button" href="{{ url_for('productpage') }}">Satisfied</a>
             <a class="button" href="{{ url_for('choose_colors') }}">Not Satisfied</a>
+        </div>
+    </div>
+    <div id="colorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Color Applied</h2>
+            <div class="shirt-preview"></div>
         </div>
     </div>
 </body>
